@@ -1,0 +1,21 @@
+{
+  "name": "nus-notify",
+  "version": "1.0.0",
+  "description": "nus ivle notification",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron main.js"
+  },
+  "author": "amoshydra",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash": "^4.15.0",
+    "lowdb": "^0.13.1",
+    "mustache": "^2.2.1",
+    "node-notifier": "^4.6.1",
+    "path": "^0.12.7",
+    "vue": "^1.0.26"
+  }
+}

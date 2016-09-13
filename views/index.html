@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Notify</title>
+  <link href="../styles/index.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="wrap-wrap-fix">
+  <!-- Modal -->
+  <div class="modal container hidden">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="login"></div>
+    </div>
+  </div>
+
+
+  <div class="nav"></div>
+  <div id="content">
+    <ul id="announcements"></ul>
+    <script id="announcement" type="x-tmpl-mustache">
+      <div class="announcement collapsed">
+        <div class="row title js-collapsible-toggle">{{Title}}</div>
+        <div class="description js-collapsible-target">
+          <div class="row">
+            {{{Description}}}
+          </div>
+        </div>
+      </div>
+    </script>
+  </div>
+
+  <script>require('../controllers/index.js')</script>
+</body>
+</html>
