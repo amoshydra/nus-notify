@@ -62,8 +62,6 @@ app.on('ready', () => {
   mainWindow.webContents.on('will-navigate', handleRedirect);
   mainWindow.webContents.on('new-window', handleRedirect);
 
-
-
   // Set up tray
   tray = new Tray(`${__dirname}/app.ico`);
   tray.setToolTip(APP_TITLE);
@@ -97,6 +95,7 @@ function retrieveAuthToken(authWindow) {
         if (match[1]) {
           db.set('user.authToken', match[1]).value();
           setImmediate(function() {
+            authWindow.getParentWindow().reload();
             authWindow.close();
           });
         } else {

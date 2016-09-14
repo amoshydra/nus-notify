@@ -16,18 +16,15 @@ Parser.prototype.getAnnouncements = function(callback) {
   }
 
   // Then asynchronously request update from IVLE
-  if (!(this.hasLocalData()) || this.hasTimeExceeded(20)) {
+  if (!(this.hasLocalData()) || this.hasTimeExceeded(60)) {
     console.log("Requeting remotely");
     this.getDataFromIvle(function(body) {
       let announcements = processJson(body);
       db.set('data.lastUpdate', Date.now()).value();
 
-      // Update model if necessary
-      if ((db.get('data.announcements').value().length) !== announcements.length) {
-        console.log("New update found");
-        db.set('data.announcements', announcements).value();
-        callback(announcements);
-      }
+      console.log("New update found");
+      db.set('data.announcements', announcements).value();
+      callback(announcements);
     });
   }
 }
