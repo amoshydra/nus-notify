@@ -1,10 +1,9 @@
 const electron = require('electron');
-const {app, BrowserWindow, Tray, Menu, shell} = electron;
+const {app, BrowserWindow, shell} = electron;
 
 const Auth = require('./controllers/auth');
-const APP_TITLE = "Notify";
+const Tray = require('./controllers/tray');
 
-let tray = null;
 var isRunningState = true;
 
 app.on('ready', () => {
@@ -14,6 +13,7 @@ app.on('ready', () => {
   mainWindow.loadURL(`${__dirname}/views/index.html`);
 
   // Process
+  Tray.init(mainWindow, backgroundProcess);
   Auth.init(mainWindow);
   Auth.authenticate();
 
@@ -54,19 +54,5 @@ app.on('ready', () => {
   mainWindow.webContents.on('will-navigate', handleRedirect);
   mainWindow.webContents.on('new-window', handleRedirect);
 
-  // Set up tray
-  tray = new Tray(`${__dirname}/app.ico`);
-  tray.setToolTip(APP_TITLE);
-  const contextMenu = Menu.buildFromTemplate([
-    { label: 'Show inbox',
-      click() { mainWindow.show() }
-    },{ label: 'Hide inbox',
-      click() { mainWindow.hide() }
-    },{ label: 'Exit',
-      click() { backgroundProcess.close() }
-    }
-  ]); tray.setContextMenu(contextMenu);
-  tray.on('click', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-  })
+
 })
