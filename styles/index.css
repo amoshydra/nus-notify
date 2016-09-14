@@ -4,37 +4,10 @@ body {
   font-family: Helvetica;
 }
 
-
-
-/* App Specific */
-
-#announcements {
-  margin: 0;
-  padding: 0;
-} #announcements li {
-  list-style: none;
-  margin: 5px 0;
-}
-
-.announcement {
-  background-color: #EEE;
-} .announcement .row {
-  padding: 15px 15px;
-} .announcement .title {
-  font-size: 1em;
-  font-weight: 600;
-  background-color: #E0E0E0;
-  cursor: pointer;
-} .announcement .description {
-  max-width: 600px;
-  display:none;
-}
-
 /* Components */
 .modal .content {
   position: fixed;
   width: 400px;
-  height: 400px;
   background-color: white;
   z-index: 120;
   margin: 0 auto;
@@ -73,4 +46,49 @@ body {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* App Specific */
+
+#announcements {
+  margin: 0;
+  padding: 0;
+} #announcements li {
+  list-style: none;
+  margin: 5px 0;
+}
+
+.announcement {
+  background-color: #EEE;
+} .announcement .row {
+  padding: 15px 15px;
+} .announcement .title {
+  font-size: 1em;
+  font-weight: 600;
+  background-color: #E0E0E0;
+  cursor: pointer;
+} .announcement .description {
+  max-width: 600px;
+  display:none;
+}
+
+.modal .loading {
+  padding-top: 40px;
+  text-align: center;
+  background-color: rgba(0,0,0,0);
+} .modal .loading p {
+  font-size: 1.6em;
+  color: white;
+} .modal .loading img {
+  width: 30%;
 }

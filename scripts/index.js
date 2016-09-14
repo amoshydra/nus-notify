@@ -37,6 +37,7 @@ function displayData(announcements) {
 
     // clone row and insert into table
     list.appendChild(htmlDom);
+    $("#loading").hide();
   }
 
   //attachListener
