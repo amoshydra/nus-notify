@@ -29,7 +29,6 @@ app.on('ready', () => {
 
   // Window event handler and creation
   backgroundProcess.on('closed', function(e) {
-    tray.destroy();
     isRunningState = false;
     mainWindow.close();
   });
