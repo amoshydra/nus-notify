@@ -1,9 +1,8 @@
 const remote = require('electron').remote;
 const request = require('request');
 const low = require("lowdb");
-const db = low('./data/userdb.json');
 const dataDb = low('./data/datadb.json');
-const LAPI_KEY = require('../data/config');
+const Requester = require('../controllers/requester');
 
 var Parser = function () {};
 
@@ -31,14 +30,12 @@ Parser.prototype.getAnnouncements = function(callback) {
 }
 
 Parser.prototype.getDataFromIvle = function(callback) {
-  let requesturl = getModulesURL();
-  request(requesturl, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      callback(body);
-    } else {
-      console.log(error);
-    }
-  })
+  let requestObject = {
+    Duration: 0,
+    IncludeAllInfo: true
+  }
+
+  Requester.requestJson("Modules", requestObject, callback);
 }
 
 Parser.prototype.getObjFromDB = function(callback) {
@@ -59,19 +56,7 @@ Parser.prototype.hasLocalData = function() {
   return dataDb.has('data.announcements').value();
 }
 
-function getModulesURL() {
-  let lapiReq = {
-    service: "Modules",
-    apikey: LAPI_KEY,
-    token: db.get('user.authToken').value(),
-    duration: 0,
-    allInfo: true
-  }
-  return `https://ivle.nus.edu.sg/api/Lapi.svc/${lapiReq.service}?APIKey=${lapiReq.apikey}&AuthToken=${lapiReq.token}&Duration=${lapiReq.duration}&IncludeAllInfo=${lapiReq.allInfo}`;
-}
-
-function processJson(body) {
-  let data = JSON.parse(body)
+function processJson(data) {
   return formatData(extractData(data))
 }
 
