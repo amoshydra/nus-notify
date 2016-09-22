@@ -3,6 +3,7 @@ A prototype created with Electron to display a list of announcement from IVLE
 
 # Running this app
 ```
+npm install -g electron
 npm install && npm start
 ```
 ## API Key
