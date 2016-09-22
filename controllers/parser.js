@@ -2,6 +2,7 @@ const remote = require('electron').remote;
 const request = require('request');
 const low = require("lowdb");
 const db = low('./data/userdb.json');
+const dataDb = low('./data/datadb.json');
 const LAPI_KEY = require('../data/config');
 
 var Parser = function () {};
@@ -20,10 +21,10 @@ Parser.prototype.getAnnouncements = function(callback) {
     console.log("Requeting remotely");
     this.getDataFromIvle(function(body) {
       let announcements = processJson(body);
-      db.set('data.lastUpdate', Date.now()).value();
+      dataDb.set('data.lastUpdate', Date.now()).value();
 
       console.log("New update found");
-      db.set('data.announcements', announcements).value();
+      dataDb.set('data.announcements', announcements).value();
       callback(announcements);
     });
   }
@@ -41,11 +42,11 @@ Parser.prototype.getDataFromIvle = function(callback) {
 }
 
 Parser.prototype.getObjFromDB = function(callback) {
-  callback(db.get('data.announcements').value());
+  callback(dataDb.get('data.announcements').value());
 }
 
 Parser.prototype.getUpdateInterval = function() {
-  let lastUpdate = db.get('data.lastUpdate').value();
+  let lastUpdate = dataDb.get('data.lastUpdate').value();
   let currentTime = Date.now();
   return currentTime - lastUpdate;
 }
@@ -55,7 +56,7 @@ Parser.prototype.hasTimeExceeded = function(seconds) {
 }
 
 Parser.prototype.hasLocalData = function() {
-  return db.has('data.announcements').value();
+  return dataDb.has('data.announcements').value();
 }
 
 function getModulesURL() {
@@ -91,6 +92,7 @@ function extractData(jsonData) {
   }
   return announcements;
 }
+
 function formatData(announcements) {
   return announcements.sort(function (a, b) {
     return (a.CreatedDate_js < b.CreatedDate_js) ? 1 : -1;
