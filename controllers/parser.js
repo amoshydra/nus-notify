@@ -1,5 +1,3 @@
-;
-const remote = require('electron').remote;
 const request = require('request');
 const low = require("lowdb");
 const dataDb = low('./data/datadb.json');
@@ -34,17 +32,18 @@ formatData = function formatData(announcements) {
   })
 };
 
+
 var Parser = {
   getAnnouncements: function(callback) {
     // Always get cache version first
     if (this.hasLocalData()) {
       console.log("Requeting locally");
-      this.getObjFromDB(callback);
+      this.getAnnouncementsFromDB(callback);
     }
     // Then asynchronously request update from IVLE
     if (!(this.hasLocalData()) || this.hasTimeExceeded(60)) {
       console.log("Requeting remotely");
-      this.getDataFromIvle(function(body) {
+      this.getAnnouncementsFromIvle(function(body) {
         let announcements = processJson(body);
         dataDb.set('data.lastUpdate', Date.now()).value();
 
@@ -55,7 +54,7 @@ var Parser = {
     }
   },
   //
-  getDataFromIvle: function(callback) {
+  getAnnouncementsFromIvle: function(callback) {
     let requestObject = {
       Duration: 0,
       IncludeAllInfo: true
@@ -63,10 +62,9 @@ var Parser = {
     Requester.requestJson("Modules", requestObject, callback);
   },
   //
-  getObjFromDB: function(callback) {
+  getAnnouncementsFromDB: function(callback) {
     callback(dataDb.get('data.announcements').value());
   },
-
   //
   getUpdateInterval: function() {
     let lastUpdate = dataDb.get('data.lastUpdate').value();
