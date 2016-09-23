@@ -1,3 +1,4 @@
+;
 const electron = require('electron');
 const {Tray, Menu} = electron;
 

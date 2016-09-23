@@ -28,8 +28,9 @@
   <div id="content">
     <ul id="announcements"></ul>
     <script id="announcement" type="x-tmpl-mustache">
-      <div class="announcement collapsed">
-        <div class="row title js-collapsible-toggle">{{Title}}</div>
+      <div class="announcement">
+
+        <div class="row title js-collapsible-toggle"><input type="checkbox" name="" id=""/>{{Title}}</div>
         <div class="description js-collapsible-target">
           <div class="row">
             {{{Description}}}

@@ -1,3 +1,4 @@
+;
 const request = require('request');
 const low = require("lowdb");
 const userDb = low('./data/userdb.json');

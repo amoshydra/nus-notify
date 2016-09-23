@@ -1,3 +1,4 @@
+;
 const electron = require('electron');
 const {BrowserWindow} = electron;
 const request = require('request');

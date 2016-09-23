@@ -1,7 +1,7 @@
 /* Default settings */
 
 body {
-  font-family: Helvetica;
+  font-family: 16px/1.6 "Open Sans" ,Georgia, serif;
 }
 
 /* Components */
@@ -49,15 +49,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
 /* App Specific */
 
 #announcements {
@@ -69,18 +60,24 @@ body {
 }
 
 .announcement {
-  background-color: #EEE;
+  background-color: white;
 } .announcement .row {
   padding: 15px 15px;
 } .announcement .title {
+  background-color:#FDE3A7;
   font-size: 1em;
   font-weight: 600;
-  background-color: #E0E0E0;
   cursor: pointer;
 } .announcement .description {
-  max-width: 600px;
+  word-spacing: .28rem;
+  max-width: 45rem;
+  line-height: 1.4;
+  background-color: white;
   display:none;
+} .announcement:hover, .announcement:active,.announcement:focus,.announcement.is-expanded{
+  transition: all .4s;
 }
+
 
 .modal .loading {
   padding-top: 40px;

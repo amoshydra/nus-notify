@@ -1,3 +1,4 @@
+;
 const Parser = require('../controllers/parser');
 const request = require('request');
 const Mustache = require('mustache');
@@ -42,15 +43,11 @@ function displayData(announcements) {
 
   //attachListener
   $(".js-collapsible-toggle").click(function() {
-    let $toggler = $(this.parentNode.children[1]);
+    let parentContainer = $(this).parent()[0];
+    let $toggler = $(this).next();
     let toggleSpeed = "fast";
-
-    if ($toggler.css("display") === "none") {
-      $(".js-collapsible-target").hide(toggleSpeed);
-      $toggler.show(toggleSpeed);
-    } else {
-      $toggler.hide(toggleSpeed);
-    }
-
+    $toggler.slideToggle(toggleSpeed,function(){
+      $(parentContainer).toggleClass("is-expanded");
+    })
   });
 }
