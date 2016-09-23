@@ -34,14 +34,7 @@ formatData = function formatData(announcements) {
 
 
 var Parser = {
-  getAnnouncements: function(callback) {
-    // Always get cache version first
-    if (this.hasLocalData()) {
-      console.log("Requeting locally");
-      this.getAnnouncementsFromDB(callback);
-    }
-    // Then asynchronously request update from IVLE
-    if (!(this.hasLocalData()) || this.hasTimeExceeded(60)) {
+  getAnnouncements: function() {
       console.log("Requeting remotely");
       this.getAnnouncementsFromIvle(function(body) {
         let announcements = processJson(body);
@@ -49,9 +42,7 @@ var Parser = {
 
         console.log("New update found");
         dataDb.set('data.announcements', announcements).value();
-        callback(announcements);
       });
-    }
   },
   //
   getAnnouncementsFromIvle: function(callback) {
@@ -65,20 +56,6 @@ var Parser = {
   getAnnouncementsFromDB: function(callback) {
     callback(dataDb.get('data.announcements').value());
   },
-  //
-  getUpdateInterval: function() {
-    let lastUpdate = dataDb.get('data.lastUpdate').value();
-    let currentTime = Date.now();
-    return currentTime - lastUpdate;
-  },
-  //
-  hasTimeExceeded: function(seconds) {
-    return this.getUpdateInterval() > (seconds * 1000);
-  },
-  //
-  hasLocalData: function() {
-    return dataDb.has('data.announcements').value();
-  }
 };
 
 module.exports = Parser;
