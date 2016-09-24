@@ -48,7 +48,14 @@ var Parser = {
       Duration: 0,
       IncludeAllInfo: true
     }
-    Requester.requestJson("Modules", requestObject, callback);
+    Requester.requestJson("Modules", requestObject).then(
+      function(data) {
+        callback(data);
+      },
+      function(error) {
+        console.error(error);
+      }
+    );
   },
   //
   getAnnouncementsFromDB: function(callback) {
