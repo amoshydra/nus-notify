@@ -30,19 +30,17 @@ formatData = function formatData(announcements) {
   return announcements.sort(function (a, b) {
     return (a.CreatedDate_js < b.CreatedDate_js) ? 1 : -1;
   })
-};
+},
 
+updateDatabase = function updateDatabase(body) {
+  let announcements = processJson(body);
+  dataDb.set('data.lastUpdate', Date.now()).value();
+  dataDb.set('data.announcements', announcements).value();
+};
 
 var Parser = {
   getAnnouncements: function() {
-      console.log("Requeting remotely");
-      this.getAnnouncementsFromIvle(function(body) {
-        let announcements = processJson(body);
-        dataDb.set('data.lastUpdate', Date.now()).value();
-
-        console.log("New update found");
-        dataDb.set('data.announcements', announcements).value();
-      });
+      Parser.getAnnouncementsFromIvle(updateDatabase);
   },
   //
   getAnnouncementsFromIvle: function(callback) {
