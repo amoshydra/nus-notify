@@ -1,6 +1,6 @@
-const Promise = require('promise');
 const request = require('request');
-const low = require("lowdb");
+const Promise = require('promise');
+const Storage = require('../controllers/storage');
 
 const LAPI_KEY = require('../data/config');
 
@@ -40,9 +40,7 @@ var Requester = {
 };
 
 var getUserToken = function getUserToken() {
-  return low('./data/userdb.json')
-            .get('user.authToken')
-            .value();
+  return Storage.userDb.get('user.authToken').value();
 }
 
 module.exports = Requester;

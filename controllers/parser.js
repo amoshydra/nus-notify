@@ -1,7 +1,6 @@
 const request = require('request');
-const low = require("lowdb");
-const dataDb = low('./data/datadb.json');
 const Requester = require('../controllers/requester');
+const Storage = require('../controllers/storage');
 
 var processJson = function processJson(data) {
   return formatData(extractData(data))
@@ -34,8 +33,8 @@ formatData = function formatData(announcements) {
 
 updateDatabase = function updateDatabase(body) {
   let announcements = processJson(body);
-  dataDb.set('data.lastUpdate', Date.now()).value();
-  dataDb.set('data.announcements', announcements).value();
+  Storage.dataDb.set('data.lastUpdate', Date.now()).value();
+  Storage.dataDb.set('data.announcements', announcements).value();
 };
 
 var Parser = {
@@ -59,7 +58,7 @@ var Parser = {
   },
   //
   getAnnouncementsFromDB: function(callback) {
-    callback(dataDb.get('data.announcements').value());
+    callback(Storage.dataDb.get('data.announcements').value());
   },
 };
 

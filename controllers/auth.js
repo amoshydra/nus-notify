@@ -1,11 +1,8 @@
 const electron = require('electron');
 const {BrowserWindow} = electron;
 const EventEmitter = require('events').EventEmitter;
-const low = require("lowdb");
-const JsonWatch = require('jsonwatch');
 
-const db = low('./data/userdb.json');
-const dbListener = new JsonWatch('./data/userdb.json');
+const Storage = require('../controllers/storage');
 const LAPI_KEY = require('../data/config');
 
 var Auth = {
@@ -13,7 +10,7 @@ var Auth = {
   emitter: new EventEmitter(),
 
   authenticate: function(parentWindow) {
-    let hasAuthToken = db.has('user.authToken').value();
+    let hasAuthToken = Storage.userDb.has('user.authToken').value();
     if (!hasAuthToken) {
       AuthWindows.init(parentWindow);
     } else {
@@ -74,7 +71,7 @@ function handleToken(event, urlStr) {
   let token = getAuthToken(urlStr);
 
   if (token) {
-    db.set('user.authToken', token).value();
+    Storage.userDb.set('user.authToken', token).value();
 
     Auth.notifySuccess();
     AuthWindows.authWindow.hide();

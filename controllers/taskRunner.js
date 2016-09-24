@@ -1,4 +1,4 @@
-const low = require("lowdb");
+const Storage = require('../controllers/storage');
 const Parser = require('../controllers/parser');
 const Requester = require('../controllers/requester');
 
@@ -38,12 +38,12 @@ var updateModuleIds = function updateModuleIds() {
   );
 
   function filterModuleIds(data) {
-    const userDb = low('./data/userdb.json');
     let modulesArray = data["Results"];
-    let modules = {};
-
     modulesArray.forEach(function(moduleObj, index, array) {
-        userDb.set(`modules.${moduleObj["ID"]}`, {}).value();
+      Storage.userDb
+             .set(`modules.${moduleObj["ID"]}`, {})
+             .value();
+
     });
   }
 }
