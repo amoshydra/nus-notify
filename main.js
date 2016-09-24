@@ -5,54 +5,58 @@ const Auth = require('./controllers/auth');
 const Tray = require('./controllers/tray');
 const TaskRunner = require('./controllers/taskRunner');
 
-var isRunningState = true;
-var backgroundProcess, mainWindow;
-
-
 app.on('ready', () => {
+  AppWindows.init();
 
-  initialiseBrowserWindows();
+  Tray.init(AppWindows.mainWindow, AppWindows.backgroundProcess);
 
-  Tray.init(mainWindow, backgroundProcess);
-  Auth.init(mainWindow);
-  Auth.authenticate();
-  TaskRunner.init();
-  TaskRunner.run();
-  bindEventListenerToBrowserWindows();
+  Auth.emitter.once("authenticated", function() {
+    TaskRunner.init();
+    TaskRunner.run();
+  });
+  Auth.authenticate(AppWindows.mainWindow);
 });
 
 
-var initialiseBrowserWindows = function initialiseWindows() {
-  backgroundProcess = new BrowserWindow({show: false});
-  mainWindow = new BrowserWindow({width: 800, height: 600, show: true, icon: `${__dirname}/app.ico`});
-  mainWindow.loadURL(`${__dirname}/views/index.html`);
-},
+var AppWindows = {
+  backgroundProcess: null,
+  mainWindow: null,
+  isRunningState: true,
 
-bindEventListenerToBrowserWindows = function configureBrowserWindows() {
-  // Window event handler and creation
-  backgroundProcess.on('closed', function(e) {
-    isRunningState = false;
-    mainWindow.close();
-  });
+  init: function() {
+    this.backgroundProcess = new BrowserWindow({show: false});
+    this.mainWindow = new BrowserWindow({width: 800, height: 600, show: true, icon: `${__dirname}/app.ico`});
+    this.mainWindow.loadURL(`${__dirname}/views/index.html`);
 
-  mainWindow.on('show', () => {
-    mainWindow.setSkipTaskbar(false);
-  });
-  mainWindow.on('close', (e) => {
-    if (isRunningState) {
-      e.preventDefault();
-      mainWindow.hide();
-      mainWindow.setSkipTaskbar(true);
-    }
-  });
+    this.bindEventListener();
+  },
 
-  mainWindow.webContents.on('will-navigate', handleRedirect);
-  mainWindow.webContents.on('new-window', handleRedirect);
-},
+  bindEventListener: function() {
+    // Window event handler and creation
+    this.backgroundProcess.on('closed', function(e) {
+      this.isRunningState = false;
+      this.mainWindow.close();
+    });
 
-handleRedirect = function handleRedirect (e, url) {
-    if(url != mainWindow.webContents.getURL()) {
+    this.mainWindow.on('show', () => {
+      this.mainWindow.setSkipTaskbar(false);
+    });
+    this.mainWindow.on('close', (e) => {
+      if (this.isRunningState) {
+        e.preventDefault();
+        this.mainWindow.hide();
+        this.mainWindow.setSkipTaskbar(true);
+      }
+    });
+
+    this.mainWindow.webContents.on('will-navigate', this.handleRedirect);
+    this.mainWindow.webContents.on('new-window', this.handleRedirect);
+  },
+
+  handleRedirect: function(e, url) {
+    if(url != this.mainWindow.webContents.getURL()) {
       e.preventDefault();
       shell.openExternal(url);
     }
   }
+}
