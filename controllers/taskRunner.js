@@ -1,9 +1,6 @@
 const low = require("lowdb");
-const userDb = low('./data/userdb.json');
-const dataDb = low('./data/datadb.json');
-const Requester = require('../controllers/requester');
 const Parser = require('../controllers/parser');
-
+const Requester = require('../controllers/requester');
 
 const TIME_SECOND = 1000;
 const TIME_MIN = 60 * TIME_SECOND;
@@ -34,29 +31,20 @@ var updateModuleIds = function updateModuleIds() {
     "Duration": "0",
     "IncludeAllInfo": "false"
   }).then(
-    function(data) {
-      let modulesObj = filterModuleIds(data);
-      storeModuleIds(modulesObj);
-    },
+    filterModuleIds,
     function(error) {
       console.error(error);
     }
   );
 
   function filterModuleIds(data) {
+    const userDb = low('./data/userdb.json');
     let modulesArray = data["Results"];
-    let modulesObj = {};
+    let modules = {};
 
     modulesArray.forEach(function(moduleObj, index, array) {
-      let moduleId = moduleObj["ID"];
-      modulesObj[moduleId] = {};
+        userDb.set(`modules.${moduleObj["ID"]}`, {}).value();
     });
-
-    return modulesObj;
-  }
-
-  function storeModuleIds(modulesObj) {
-    userDb.set("modules", modulesObj);
   }
 }
 
