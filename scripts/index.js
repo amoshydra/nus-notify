@@ -1,5 +1,4 @@
 const Parser = require('../controllers/parser');
-const request = require('request');
 const Mustache = require('mustache');
 const JsonWatch = require('jsonwatch');
 const dataDbListener = new JsonWatch('./data/datadb.json');
