@@ -7,6 +7,9 @@ const $ = require("jquery");
 
 var indexView = {
   render: function(announcements) {
+
+    if (!announcements || announcement.length <= 0) return;
+
     // fetch tbody and row template
     var list = document.getElementById("announcements");
     list.innerHTML = "";
@@ -40,6 +43,16 @@ var indexView = {
 }
 
 Parser.getAnnouncementsFromDB(indexView.render);
-dataDbListener.on("cng", function(path, oldData, newData) {
-  indexView.render(newData);
-});
+dataDbListener.on("add", renderAnnouncements);
+dataDbListener.on("cng", renderAnnouncements2);
+
+function renderAnnouncements2(path, oldData, newData) {
+  renderAnnouncements(path, newData);
+}
+
+function renderAnnouncements(path, data) {
+  if (path === "/data/announcements") {
+    console.log("rendering new data");
+    indexView.render(data);
+  }
+}
