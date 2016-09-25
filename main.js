@@ -49,8 +49,8 @@ var AppWindows = {
       }
     });
 
-    this.mainWindow.webContents.on('will-navigate', this.handleRedirect);
-    this.mainWindow.webContents.on('new-window', this.handleRedirect);
+    this.mainWindow.webContents.on('will-navigate', this.handleRedirect.bind(this));
+    this.mainWindow.webContents.on('new-window', this.handleRedirect.bind(this));
   },
 
   handleRedirect: function(e, url) {
