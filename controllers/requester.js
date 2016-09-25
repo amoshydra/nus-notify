@@ -16,11 +16,22 @@ var Requester = {
           error = new Error("Unexpected status code: " + response.statusCode);
           error.response = response;
           return reject(error);
+        } else {
+          let data = JSON.parse(body);
+
+          // LAPI Login validation
+          if (data["Comments"] !== "Valid login!") {
+            error = new Error("Invalid login");
+            error.response = response;
+            return reject(error);
+          }
+
+          fulfill(data);
         }
-        fulfill(JSON.parse(body));
       });
     });
   },
+
 
   createModuleUrl: function(service, requestParams) {
     let authObj = {
