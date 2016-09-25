@@ -42,14 +42,14 @@ var indexView = {
 }
 
 Parser.getAnnouncementsFromDB(indexView.render);
-dataDbListener.on("add", renderAnnouncements);
-dataDbListener.on("cng", renderAnnouncements2);
+dataDbListener.on("add", renderAnnouncementsOnAdd);
+dataDbListener.on("cng", renderAnnouncementsOnCng);
 
-function renderAnnouncements2(path, oldData, newData) {
-  renderAnnouncements(path, newData);
+function renderAnnouncementsOnCng(path, oldData, newData) {
+  renderAnnouncementsOnAdd(path, newData);
 }
 
-function renderAnnouncements(path, data) {
+function renderAnnouncementsOnAdd(path, data) {
   if (path === "/data/announcements") {
     console.log("rendering new data");
     indexView.render(data);
