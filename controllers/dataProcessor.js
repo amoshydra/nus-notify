@@ -112,11 +112,15 @@ var finaliseData = function finaliseData(dataArray) {
 
 var formatData = function formatData(dataArray) {
   return dataArray.sort(function (a, b) {
-    return (a.CreatedDate_js < b.CreatedDate_js) ? 1 : -1;
+    if (a.ExpiryDate_js) {
+      return (a.ExpiryDate_js < b.ExpiryDate_js) ? 1 : -1;
+    } else {
+      return (a.CreatedDate_js < b.CreatedDate_js) ? 1 : -1;
+    }
+
+
   });
 }
-
-
 
 function retrieveData(dataType, courseId, courseObj) {
   return new Promise(function (fulfill, reject) {
