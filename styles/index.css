@@ -1,14 +1,17 @@
 /* Default settings */
 
 body {
-  font-family: 16px/1.6 "Open Sans" ,Georgia, serif;
+  /*font-family: 16px/1.6 "Open Sans" ,Georgia, serif;*/
+  font-family: Arial;
+  margin: 0;
+  overflow: scroll;
 }
 
 /* Components */
 .modal .content {
   position: fixed;
   width: 400px;
-  background-color: white;
+  background-color: #EEE;
   z-index: 120;
   margin: 0 auto;
   left: 0;
