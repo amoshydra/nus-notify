@@ -1,8 +1,8 @@
-const Parser = require('../controllers/parser');
+const $ = require("jquery");
 const Mustache = require('mustache');
 const JsonWatch = require('jsonwatch');
 const dataDbListener = new JsonWatch('./data/datadb.json');
-const $ = require("jquery");
+const Storage = require('../controllers/storage');
 
 var indexView = {
   render: function(announcements) {
@@ -41,7 +41,7 @@ var indexView = {
   }
 }
 
-Parser.getAnnouncementsFromDB(indexView.render);
+indexView.render(Storage.dataDb.get('list').value());
 dataDbListener.on("add", renderAnnouncementsOnAdd);
 dataDbListener.on("cng", renderAnnouncementsOnCng);
 
@@ -50,8 +50,7 @@ function renderAnnouncementsOnCng(path, oldData, newData) {
 }
 
 function renderAnnouncementsOnAdd(path, data) {
-  if (path === "/data/announcements") {
-    console.log("rendering new data");
+  if (path === "/list") {
     indexView.render(data);
   }
 }

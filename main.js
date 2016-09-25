@@ -12,7 +12,6 @@ app.on('ready', () => {
 
   Auth.emitter.once("authenticated", function() {
     TaskRunner.init();
-    TaskRunner.run();
   });
   Auth.authenticate(AppWindows.mainWindow);
 });

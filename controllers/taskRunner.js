@@ -1,51 +1,31 @@
-const Storage = require('../controllers/storage');
-const Parser = require('../controllers/parser');
-const Requester = require('../controllers/requester');
+const DataProcessor = require('../controllers/dataProcessor');
 
 const TIME_SECOND = 1000;
 const TIME_MIN = 60 * TIME_SECOND;
 const TIME_HOUR = 60 * TIME_MIN;
 
-
-var updateLoop = function updateLoop(functionToRun) {
-  functionToRun();
-  setTimeout(updateLoop, 5 * TIME_MIN, functionToRun);
-}
+const UPDATE_INTERVAL = 5 * TIME_MIN;
 
 var TaskRunner = {
   init: function() {
-    updateModuleIds();
-    // Initialise app
-    // obtains ids
-    // announcements, forum, webcast, files
-  },
+    DataProcessor.updateModuleIds().then(
+      // success
+      function() {
+        // poll data
+        updateLoop(DataProcessor.updateDatabase);
+      },
 
-  run: function() {
-    updateLoop(Parser.getAnnouncements);
-  }
+      // error
+      function(error) {
+        console.error(error);
+      }
+    );
+  },
 };
 
-var updateModuleIds = function updateModuleIds() {
-  // Obtain data from IVLE
-  Requester.requestJson("Modules", {
-    "Duration": "0",
-    "IncludeAllInfo": "false"
-  }).then(
-    filterModuleIds,
-    function(error) {
-      console.error(error);
-    }
-  );
-
-  function filterModuleIds(data) {
-    let modulesArray = data["Results"];
-    modulesArray.forEach(function(moduleObj, index, array) {
-      Storage.userDb
-             .set(`modules.${moduleObj["ID"]}`, {})
-             .value();
-
-    });
-  }
+var updateLoop = function updateLoop(functionToRun) {
+  functionToRun();
+  setTimeout(updateLoop, UPDATE_INTERVAL, functionToRun);
 }
 
 module.exports = TaskRunner;
