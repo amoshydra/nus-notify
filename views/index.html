@@ -50,6 +50,32 @@
         </div>
       </div>
     </script>
+
+    <script id="webcast" type="x-tmpl-mustache">
+      <div class="announcement">
+
+        <div class="heading js-collapsible-toggle">
+          <table>
+            <tr>
+              <td class="module-code">
+                <div>
+                  <span class="verticle">{{CourseCode}}</span>
+                </div>
+              </td>
+              <td class="title">Webcast - {{FileTitle}}</div></td>
+            </tr>
+          </table>
+
+        </div>
+        <div class="description js-collapsible-target">
+          <div class="row">
+            <a href={{FileName}}>Video Link</a>
+            <a href={{MP4}}>Download</a>
+          </div>
+        </div>
+      </div>
+    </script>
+
   </div>
 
   <script>require('../scripts/index.js')</script>

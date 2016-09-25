@@ -3,6 +3,14 @@ const Requester = require('../controllers/requester');
 
 
 var DataProcessor = {
+
+  nodeToStore: [
+    "CourseCode", "CourseName", "Forums", "Workbins", "Webcasts", "Gradebooks", "Multimedia"
+  ],
+  serviceToRetrieve: [
+    "Announcements", "Webcasts"
+  ],
+
   updateModuleIds: function() {
 
     return new Promise(function (fulfill, reject) {
@@ -28,8 +36,6 @@ var DataProcessor = {
 
   updateDatabase: function() {
 
-    let dataToUpdate = ["Announcements"];
-
     let courses = Storage.userDb.get("modules").value();
 
     let elementArray = [];
@@ -43,7 +49,7 @@ var DataProcessor = {
         let courseObj = courses[course];
 
         // for each module, loop through all the ID
-        dataToUpdate.forEach(function(dataType) {
+        DataProcessor.serviceToRetrieve.forEach(function(dataType) {
           let requestPromise = retrieveData(dataType, courseId, courseObj);
           DataTypePromisesArray.push(requestPromise);
         });
@@ -62,6 +68,9 @@ var DataProcessor = {
           if (count === (DataTypePromisesArray.length)) { //last element
             finaliseData(elementArray);
           }
+        },
+        function(error) {
+          console.log(`Error processing returned promise: ${error}`);
         }
       );
     });
@@ -71,7 +80,7 @@ var DataProcessor = {
 
 function filterModuleIds(data) {
 
-  let nodesToStore = ["CourseCode", "CourseName", "Forums", "Workbins", "Webcasts", "Gradebooks", "Multimedia"];
+  let nodesToStore = DataProcessor.nodeToStore;
 
   let modulesArray = data["Results"];
   let modulesObj = {};
@@ -139,6 +148,22 @@ function retrieveData(dataType, courseId, courseObj) {
 function handleDataType(dataType, dataArray) {
 
   switch (dataType.toLowerCase()) {
+    case "webcasts":
+      let itemArray = [];
+
+      dataArray.forEach(function(webcastCategory) {
+        let itemGroups = webcastCategory["ItemGroups"];
+
+        itemGroups.forEach(function(item) {
+          let files = item["Files"];
+
+          files.forEach(function(item) {
+            itemArray.push(item);
+          });
+        });
+      });
+
+      return itemArray;
     case "announcement":
     default:
       return dataArray;

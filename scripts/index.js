@@ -16,9 +16,17 @@ var indexView = {
     let template = document.getElementById('announcement').innerHTML;
     Mustache.parse(template);   // optional, speeds up future uses
 
+    let templateWebCast = document.getElementById('webcast').innerHTML;
+    Mustache.parse(templateWebCast);
+
+    let htmlStr = "";
     for (let i = 0; i < announcements.length; i++) {
       let announcement = announcements[i];
-      let htmlStr = Mustache.render(template, announcement);
+      if (announcement._dataType === "Webcasts") {
+        htmlStr = Mustache.render(templateWebCast, announcement);
+      } else {
+        htmlStr = Mustache.render(template, announcement);
+      }
       let htmlDom = document.createElement('li');
       htmlDom.innerHTML = htmlStr;
 

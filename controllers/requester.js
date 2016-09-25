@@ -20,9 +20,7 @@ var Requester = {
 
           // LAPI Login validation
           if (data["Comments"] !== "Valid login!") {
-            error = new Error("Invalid login");
-            error.response = response;
-            return reject(error);
+            console.error("Requester.requestUrl: Response is empty or invalid");
           }
 
           fulfill(data);
