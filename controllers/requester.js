@@ -1,5 +1,4 @@
 const request = require('request');
-const Promise = require('promise');
 const Storage = require('../controllers/storage');
 
 const LAPI_KEY = require('../data/config');
