@@ -74,12 +74,12 @@ table {
 .announcement {
   background-color: white;
 } .announcement .heading {
-  background-color: #A7FFEB;
+  background-color: #EEEEEE;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
 } #announcements li:nth-child(odd) .heading {
-  background-color: #B9F0E0;
+  background-color: #EEEEEE;
 } .announcement .heading .module-code {
   text-align: center;
   background-color: rgba(30,30,30,0.15);
@@ -121,7 +121,7 @@ table {
   display: none; width: 7px;
 }
 ::-webkit-scrollbar-button {
-  background: #A7FFEB;
+  background: #EEEEEE;
   height: 4px;
 }
 ::-webkit-scrollbar-thumb {
@@ -129,5 +129,5 @@ table {
   border-left: 4px solid rgba(255,255,255,0.7);
 }
 ::-webkit-scrollbar-track {
-  background: #A7FFEB;
+  background: #EEEEEE;
 }
