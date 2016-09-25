@@ -30,7 +30,19 @@
     <script id="announcement" type="x-tmpl-mustache">
       <div class="announcement">
 
-        <div class="row title js-collapsible-toggle">{{Title}}</div>
+        <div class="heading js-collapsible-toggle">
+          <table>
+            <tr>
+              <td class="module-code">
+                <div>
+                  <span class="verticle">{{CourseCode}}</span>
+                </div>
+              </td>
+              <td class="title">{{Title}}</div></td>
+            </tr>
+          </table>
+
+        </div>
         <div class="description js-collapsible-target">
           <div class="row">
             {{{Description}}}

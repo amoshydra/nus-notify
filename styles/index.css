@@ -51,6 +51,14 @@ body {
   hyphens: auto;
 }
 
+/* normaliser */
+table {
+  border-spacing: 0;
+} table td {
+  padding: 0;
+  height: 100%;
+}
+
 
 /* App Specific */
 
@@ -59,23 +67,36 @@ body {
   padding: 0;
 } #announcements li {
   list-style: none;
-  margin: 5px 0;
+} #announcements li:not(:first-child):not(:last-child) {
+  margin: 0;
 }
 
 .announcement {
   background-color: white;
-} .announcement .row {
-  padding: 15px 15px;
-} .announcement .title {
-  background-color:#FDE3A7;
+} .announcement .heading {
+  background-color: #A7FFEB;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
+} #announcements li:nth-child(odd) .heading {
+  background-color: #B9F0E0;
+} .announcement .heading .module-code {
+  text-align: center;
+  background-color: rgba(30,30,30,0.15);
+  color: rgb(80, 80, 80);
+  font-size: 0.6em;
+  padding: 20px 3px;
+  width: 38px;
+} .announcement .heading .title {
+  padding: 10px 5px;
+  padding-left: 10px;
 } .announcement .description {
-  word-spacing: .28rem;
+  padding: 15px 15px;
+  padding-left: calc(38px + 12px + 6px);
+  word-spacing: .1rem;
   max-width: 45rem;
   line-height: 1.4;
-  background-color: white;
+  background-color: #FEFEFE;
   display:none;
 } .announcement:hover, .announcement:active,.announcement:focus,.announcement.is-expanded{
   transition: all .4s;
