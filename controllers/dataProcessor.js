@@ -113,8 +113,10 @@ var finaliseData = function finaliseData(dataArray) {
 var formatData = function formatData(dataArray) {
   return dataArray.sort(function (a, b) {
 
-    let aSort = (a.ExpiryDate_js) ? "ExpiryDate_js" : "CreatedDate_js";
-    let bSort = (b.ExpiryDate_js) ? "ExpiryDate_js" : "CreatedDate_js";
+    let aSort = (a.CreatedDate_js) ? "CreatedDate_js" : "CreateDate_js";
+    let bSort = (b.CreatedDate_js) ? "CreatedDate_js" : "CreateDate_js";
+    aSort = (a.ExpiryDate_js) ? "ExpiryDate_js" : aSort;
+    bSort = (b.ExpiryDate_js) ? "ExpiryDate_js" : bSort;
 
     return (a[aSort] < b[bSort]) ? 1 : -1;
   });
