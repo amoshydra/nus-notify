@@ -31,25 +31,27 @@ var AppWindows = {
   },
 
   bindEventListener: function() {
+    let self = this;
+
     // Window event handler and creation
-    this.backgroundProcess.on('closed', function(e) {
-      this.isRunningState = false;
-      this.mainWindow.close();
+    self.backgroundProcess.on('closed', function(e) {
+      self.isRunningState = false;
+      self.mainWindow.close();
     });
 
-    this.mainWindow.on('show', () => {
-      this.mainWindow.setSkipTaskbar(false);
+    self.mainWindow.on('show', () => {
+      self.mainWindow.setSkipTaskbar(false);
     });
-    this.mainWindow.on('close', (e) => {
-      if (this.isRunningState) {
+    self.mainWindow.on('close', (e) => {
+      if (self.isRunningState) {
         e.preventDefault();
-        this.mainWindow.hide();
-        this.mainWindow.setSkipTaskbar(true);
+        self.mainWindow.hide();
+        self.mainWindow.setSkipTaskbar(true);
       }
     });
 
-    this.mainWindow.webContents.on('will-navigate', this.handleRedirect.bind(this));
-    this.mainWindow.webContents.on('new-window', this.handleRedirect.bind(this));
+    self.mainWindow.webContents.on('will-navigate', this.handleRedirect.bind(this));
+    self.mainWindow.webContents.on('new-window', this.handleRedirect.bind(this));
   },
 
   handleRedirect: function(e, url) {
