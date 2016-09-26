@@ -162,6 +162,7 @@ function handleDataType(dataType, dataArray) {
           let files = item["Files"];
 
           files.forEach(function(item) {
+            item["ChannelID"] = webcastCategory["ID"];
             itemArray.push(item);
           });
         });
@@ -171,10 +172,8 @@ function handleDataType(dataType, dataArray) {
     }
     case "multimedia": {
       let itemArray = [];
-      // console.log(dataArray);
       dataArray.forEach(function(webcastCategory) {
         let files = webcastCategory["Files"];
-        // console.log(files);
         files.forEach(function(item) {
           item["ChannelID"] = webcastCategory["ID"];
           itemArray.push(item);
