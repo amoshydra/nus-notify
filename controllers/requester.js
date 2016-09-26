@@ -20,7 +20,7 @@ var Requester = {
 
           // LAPI Login validation
           if (data["Comments"] !== "Valid login!") {
-            console.error("Requester.requestUrl: Response is empty or invalid");
+            // console.warn("Requester.requestUrl: Response is empty or invalid"); //TODO should display only when ENV==DEBUG
           }
 
           fulfill(data);
