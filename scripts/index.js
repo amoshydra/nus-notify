@@ -22,7 +22,7 @@ var indexView = {
     let htmlStr = "";
     for (let i = 0; i < announcements.length; i++) {
       let announcement = announcements[i];
-      if (announcement._dataType === "Webcasts") {
+      if (announcement._dataType === "Webcasts" || announcement._dataType === "Multimedia") {
         htmlStr = Mustache.render(templateWebCast, announcement);
       } else {
         htmlStr = Mustache.render(template, announcement);

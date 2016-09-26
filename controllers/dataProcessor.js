@@ -8,7 +8,7 @@ var DataProcessor = {
     "CourseCode", "CourseName", "Forums", "Workbins", "Webcasts", "Gradebooks", "Multimedia"
   ],
   serviceToRetrieve: [
-    "Announcements", "Webcasts"
+    "Announcements", "Webcasts", "Multimedia"
   ],
 
   updateModuleIds: function() {
@@ -150,7 +150,7 @@ function retrieveData(dataType, courseId, courseObj) {
 function handleDataType(dataType, dataArray) {
 
   switch (dataType.toLowerCase()) {
-    case "webcasts":
+    case "webcasts": {
       let itemArray = [];
 
       dataArray.forEach(function(webcastCategory) {
@@ -166,7 +166,23 @@ function handleDataType(dataType, dataArray) {
       });
 
       return itemArray;
-    case "announcement":
+    }
+    case "multimedia": {
+      let itemArray = [];
+      // console.log(dataArray);
+      dataArray.forEach(function(webcastCategory) {
+        let files = webcastCategory["Files"];
+        // console.log(files);
+        files.forEach(function(item) {
+          item["ChannelID"] = webcastCategory["ID"];
+          itemArray.push(item);
+        });
+      });
+
+      // console.log(itemArray);
+      return itemArray;
+    }
+    case "announcement": // fallthrough
     default:
       return dataArray;
   }
