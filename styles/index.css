@@ -98,6 +98,13 @@ table {
   line-height: 1.4;
   background-color: #FEFEFE;
   display:none;
+} .announcement .create-date {
+  font-size: 0.7em;
+  opacity: 0.7;
+  padding:0;
+  margin: 0;
+  margin-top: 30px;
+  text-align:right;
 } .announcement:hover, .announcement:active,.announcement:focus,.announcement.is-expanded{
   transition: all .4s;
 }
