@@ -4,7 +4,7 @@ body {
   /*font-family: 16px/1.6 "Open Sans" ,Georgia, serif;*/
   font-family: Arial;
   margin: 0;
-  overflow: scroll;
+  overflow: auto;
 }
 
 /* Components */
@@ -118,15 +118,20 @@ table {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  display: none; width: 7px;
+  width: 16px;
+  position:absolute;
+  left: 0;
 }
 ::-webkit-scrollbar-button {
   background: #EEEEEE;
   height: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: none;
-  border-left: 4px solid rgba(255,255,255,0.7);
+  background: rgba(40,40,40,0.2);
+  border-left: 26px solid red;
+  border-right: 22px solid red;
+  height: 50px;
+  border-radius: 24px;
 }
 ::-webkit-scrollbar-track {
   background: #EEEEEE;
