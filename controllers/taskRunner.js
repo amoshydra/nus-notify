@@ -8,18 +8,12 @@ const UPDATE_INTERVAL = 5 * TIME_MIN;
 
 const TaskRunner = {
   init: function init() {
-    DataProcessor.updateModuleIds().then(
-      // success
-      () => {
-        // poll data
-        updateLoop(DataProcessor.updateDatabase);
-      },
-
-      // error
-      (error) => {
-        console.error(error);
-      }
-    );
+    DataProcessor.updateModuleIds().then(() => {
+      updateLoop(DataProcessor.updateDatabase);
+      return;
+    }).catch((error) => {
+      console.error(error);
+    });
   },
 };
 
