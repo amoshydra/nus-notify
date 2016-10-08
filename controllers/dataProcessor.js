@@ -12,27 +12,16 @@ const DataProcessor = {
   ],
 
   updateModuleIds: function updateModuleIds() {
-    return new Promise((resolve, reject) => {
-      Requester.requestJson('Modules', {
-        Duration: '0',
-        IncludeAllInfo: 'true' })
-        .then(
-          // sucess
-          (data) => {
-            const modulesObj = filterModuleIds(data);
-            storeModulesIds(modulesObj);
-
-            resolve();
-          },
-
-          // error
-          (error) => {
-            reject(error);
-          }
-        ).catch(() => {
-          console.err('Error requesting for module ids');
-        });
-    });
+    return Requester.requestJson('Modules', {
+      Duration: '0',
+      IncludeAllInfo: 'true' })
+      .then((data) => {
+        const modulesObj = filterModuleIds(data);
+        storeModulesIds(modulesObj);
+        return modulesObj;
+      }).catch((error) => {
+        console.error(`Error requesting for module ids. ${error}`);
+      });
   },
 
   updateDatabase: function updateDatabase() {
@@ -51,22 +40,16 @@ const DataProcessor = {
         DataProcessor.serviceToRetrieve.forEach((dataType) => {
           const requestPromise = retrieveData(dataType, courseId, courseObj);
           DataTypePromisesArray.push(requestPromise);
+
+          requestPromise.then((dataArray) => {
+            Array.prototype.push.apply(elementArray, dataArray);
+            return dataArray;
+          }).catch((error) => {
+            console.error(`Error processing returned promise: ${error}`);
+          });
         });
       }
     }
-
-    DataTypePromisesArray.forEach((dataPromise) => {
-      dataPromise.then(
-        (dataArray) => {
-          Array.prototype.push.apply(elementArray, dataArray);
-        },
-        (error) => {
-          console.log(`Error processing returned promise: ${error}`);
-        }
-      ).catch(() => {
-        console.log('Error processing returned promise');
-      });
-    });
 
     // Wait until all function is done, then perform
     Promise.all(DataTypePromisesArray).then(() =>
@@ -125,23 +108,15 @@ function retrieveData(dataType, courseId, courseObj) {
       CourseID: courseId
     };
 
-    Requester.requestJson(dataType, requestParams).then(
-      // success
-      (data) => {
-        let dataArray = data.Results;
-        dataArray = handleDataType(dataType, dataArray);
-        dataArray = appendIdentifierTag(dataType, courseObj, dataArray);
-
-        resolve(dataArray);
-      },
-
-      // error
-      (error) => {
-        console.log(`Error requesting ${dataType}`);
-        reject(error);
-      }
-    ).catch(() => {
-      console.log(`Error requesting ${dataType}`);
+    Requester.requestJson(dataType, requestParams).then((data) => {
+      let dataArray = data.Results;
+      dataArray = handleDataType(dataType, dataArray);
+      dataArray = appendIdentifierTag(dataType, courseObj, dataArray);
+      resolve(dataArray);
+      return dataArray;
+    }).catch((error) => {
+      console.error(`Error requesting ${dataType}`);
+      reject(error);
     });
   });
 }
@@ -176,7 +151,6 @@ function handleDataType(dataType, dataArray) {
         });
       });
 
-      // console.log(itemArray);
       return itemArray;
     }
     case 'announcement': // fallthrough
