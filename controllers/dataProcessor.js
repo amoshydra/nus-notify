@@ -55,18 +55,10 @@ const DataProcessor = {
       }
     }
 
-    // Wait until all function is done, then perform
-    let count = 0;
-
     DataTypePromisesArray.forEach((dataPromise) => {
       dataPromise.then(
         (dataArray) => {
           Array.prototype.push.apply(elementArray, dataArray);
-          count += 1;
-
-          if (count === (DataTypePromisesArray.length)) { // last element
-            finaliseData(elementArray);
-          }
         },
         (error) => {
           console.log(`Error processing returned promise: ${error}`);
@@ -75,6 +67,11 @@ const DataProcessor = {
         console.log('Error processing returned promise');
       });
     });
+
+    // Wait until all function is done, then perform
+    Promise.all(DataTypePromisesArray).then(() =>
+      finaliseData(elementArray)
+    ).catch();
   }
 };
 
