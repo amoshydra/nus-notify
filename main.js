@@ -1,40 +1,41 @@
 const electron = require('electron');
-const {app, BrowserWindow, shell} = electron;
-
 const Auth = require('./controllers/auth');
 const Tray = require('./controllers/tray');
 const TaskRunner = require('./controllers/taskRunner');
+
+const { app, BrowserWindow, shell } = electron;
+
 
 app.on('ready', () => {
   AppWindows.init();
 
   Tray.init(AppWindows.mainWindow, AppWindows.backgroundProcess);
 
-  Auth.emitter.once("authenticated", function() {
+  Auth.emitter.once('authenticated', () => {
     TaskRunner.init();
   });
   Auth.authenticate(AppWindows.mainWindow);
 });
 
 
-var AppWindows = {
+const AppWindows = {
   backgroundProcess: null,
   mainWindow: null,
   isRunningState: true,
 
-  init: function() {
-    this.backgroundProcess = new BrowserWindow({show: false});
-    this.mainWindow = new BrowserWindow({width: 800, height: 600, show: true, icon: `${__dirname}/app.ico`});
+  init: function init() {
+    this.backgroundProcess = new BrowserWindow({ show: false });
+    this.mainWindow = new BrowserWindow({ width: 800, height: 600, show: true, icon: `${__dirname}/app.ico` });
     this.mainWindow.loadURL(`${__dirname}/views/index.html`);
 
     this.bindEventListener();
   },
 
-  bindEventListener: function() {
-    let self = this;
+  bindEventListener: function bindEventListener() {
+    const self = this;
 
     // Window event handler and creation
-    self.backgroundProcess.on('closed', function(e) {
+    self.backgroundProcess.on('closed', () => {
       self.isRunningState = false;
       self.mainWindow.close();
     });
@@ -54,10 +55,10 @@ var AppWindows = {
     self.mainWindow.webContents.on('new-window', this.handleRedirect.bind(this));
   },
 
-  handleRedirect: function(e, url) {
-    if(url != this.mainWindow.webContents.getURL()) {
+  handleRedirect: function handleRedirect(e, url) {
+    if (url !== this.mainWindow.webContents.getURL()) {
       e.preventDefault();
       shell.openExternal(url);
     }
   }
-}
+};

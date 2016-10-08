@@ -2,55 +2,54 @@ const Storage = require('../controllers/storage');
 const Requester = require('../controllers/requester');
 
 
-var DataProcessor = {
+const DataProcessor = {
 
   nodeToStore: [
-    "CourseCode", "CourseName", "Forums", "Workbins", "Webcasts", "Gradebooks", "Multimedia"
+    'CourseCode', 'CourseName', 'Forums', 'Workbins', 'Webcasts', 'Gradebooks', 'Multimedia'
   ],
   serviceToRetrieve: [
-    "Announcements", "Webcasts", "Multimedia"
+    'Announcements', 'Webcasts', 'Multimedia'
   ],
 
-  updateModuleIds: function() {
-
-    return new Promise(function (fulfill, reject) {
-      Requester.requestJson("Modules", {
-        "Duration": "0",
-        "IncludeAllInfo": "true"})
+  updateModuleIds: function updateModuleIds() {
+    return new Promise((resolve, reject) => {
+      Requester.requestJson('Modules', {
+        Duration: '0',
+        IncludeAllInfo: 'true' })
         .then(
           // sucess
-          function(data) {
-            let modulesObj = filterModuleIds(data);
+          (data) => {
+            const modulesObj = filterModuleIds(data);
             storeModulesIds(modulesObj);
 
-            fulfill();
+            resolve();
           },
 
           // error
-          function(error) {
+          (error) => {
             reject(error);
           }
-        );
-      });
+        ).catch(() => {
+          console.err('Error requesting for module ids');
+        });
+    });
   },
 
-  updateDatabase: function() {
+  updateDatabase: function updateDatabase() {
+    const courses = Storage.userDb.get('modules').value();
 
-    let courses = Storage.userDb.get("modules").value();
-
-    let elementArray = [];
-    let DataTypePromisesArray = [];
+    const elementArray = [];
+    const DataTypePromisesArray = [];
 
     // Loop through all the modules in the database
-    for (let course in courses) {
-
-      if (courses.hasOwnProperty(course)) {
-        let courseId = course;
-        let courseObj = courses[course];
+    for (const course in courses) {
+      if ({}.hasOwnProperty.call(courses, course)) {
+        const courseId = course;
+        const courseObj = courses[course];
 
         // for each module, loop through all the ID
-        DataProcessor.serviceToRetrieve.forEach(function(dataType) {
-          let requestPromise = retrieveData(dataType, courseId, courseObj);
+        DataProcessor.serviceToRetrieve.forEach((dataType) => {
+          const requestPromise = retrieveData(dataType, courseId, courseObj);
           DataTypePromisesArray.push(requestPromise);
         });
       }
@@ -59,40 +58,40 @@ var DataProcessor = {
     // Wait until all function is done, then perform
     let count = 0;
 
-    DataTypePromisesArray.forEach(function(dataPromise, index) {
+    DataTypePromisesArray.forEach((dataPromise) => {
       dataPromise.then(
-        function(dataArray) {
+        (dataArray) => {
           Array.prototype.push.apply(elementArray, dataArray);
           count += 1;
 
-          if (count === (DataTypePromisesArray.length)) { //last element
+          if (count === (DataTypePromisesArray.length)) { // last element
             finaliseData(elementArray);
           }
         },
-        function(error) {
+        (error) => {
           console.log(`Error processing returned promise: ${error}`);
         }
-      );
+      ).catch(() => {
+        console.log('Error processing returned promise');
+      });
     });
   }
-}
+};
 
 
 function filterModuleIds(data) {
+  const nodesToStore = DataProcessor.nodeToStore;
 
-  let nodesToStore = DataProcessor.nodeToStore;
+  const modulesArray = data.Results;
+  const modulesObj = {};
 
-  let modulesArray = data["Results"];
-  let modulesObj = {};
-
-  modulesArray.forEach(function(moduleObj) {
-
-    let moduleInformation = {};
-    nodesToStore.forEach(function(nodeName) {
+  modulesArray.forEach((moduleObj) => {
+    const moduleInformation = {};
+    nodesToStore.forEach((nodeName) => {
       moduleInformation[String(nodeName)] = moduleObj[String(nodeName)];
     });
 
-    modulesObj[String(moduleObj["ID"])] = moduleInformation;
+    modulesObj[String(moduleObj.ID)] = moduleInformation;
   });
 
   return modulesObj;
@@ -100,82 +99,82 @@ function filterModuleIds(data) {
 
 function storeModulesIds(data) {
   Storage.userDb
-         .set(`modules`, data)
+         .set('modules', data)
          .value();
 }
 
-var finaliseData = function finaliseData(dataArray) {
+const finaliseData = function finaliseData(dataArray) {
   dataArray = formatData(dataArray);
-  Storage.dataDb.set("date", Date.now()).value();
-  Storage.dataDb.set("list", dataArray).value();
-}
+  Storage.dataDb.set('date', Date.now()).value();
+  Storage.dataDb.set('list', dataArray).value();
+};
 
-var formatData = function formatData(dataArray) {
-  return dataArray.sort(function (a, b) {
-
-    let aSort = (a.CreatedDate_js) ? "CreatedDate_js" : "CreateDate_js";
-    let bSort = (b.CreatedDate_js) ? "CreatedDate_js" : "CreateDate_js";
-    aSort = (a.ExpiryDate_js) ? "ExpiryDate_js" : aSort;
-    bSort = (b.ExpiryDate_js) ? "ExpiryDate_js" : bSort;
+const formatData = function formatData(dataArray) {
+  return dataArray.sort((a, b) => {
+    let aSort = (a.CreatedDate_js) ? 'CreatedDate_js' : 'CreateDate_js';
+    let bSort = (b.CreatedDate_js) ? 'CreatedDate_js' : 'CreateDate_js';
+    aSort = (a.ExpiryDate_js) ? 'ExpiryDate_js' : aSort;
+    bSort = (b.ExpiryDate_js) ? 'ExpiryDate_js' : bSort;
 
     return (a[aSort] < b[bSort]) ? 1 : -1;
   });
-}
+};
 
 function retrieveData(dataType, courseId, courseObj) {
-  return new Promise(function (fulfill, reject) {
-    let requestParams = {
-      "Duration": 0,
-      "ShowTitleOnly": false,
-      "CourseID": courseId
+  return new Promise((resolve, reject) => {
+    const requestParams = {
+      Duration: 0,
+      ShowTitleOnly: false,
+      CourseID: courseId
     };
 
     Requester.requestJson(dataType, requestParams).then(
       // success
-      function(data) {
-        let dataArray = data["Results"];
+      (data) => {
+        let dataArray = data.Results;
         dataArray = handleDataType(dataType, dataArray);
         dataArray = appendIdentifierTag(dataType, courseObj, dataArray);
 
-        fulfill(dataArray);
+        resolve(dataArray);
       },
 
       // error
-      function(error) {
-        console.log(`Error requesting ${dataName}`);
+      (error) => {
+        console.log(`Error requesting ${dataType}`);
         reject(error);
       }
-    );
+    ).catch(() => {
+      console.log(`Error requesting ${dataType}`);
+    });
   });
 }
 
 function handleDataType(dataType, dataArray) {
-
   switch (dataType.toLowerCase()) {
-    case "webcasts": {
-      let itemArray = [];
+    case 'webcasts': {
+      const itemArray = [];
 
-      dataArray.forEach(function(webcastCategory) {
-        let itemGroups = webcastCategory["ItemGroups"];
+      dataArray.forEach((webcastCategory) => {
+        const itemGroups = webcastCategory.ItemGroups;
 
-        itemGroups.forEach(function(item) {
-          let files = item["Files"];
+        itemGroups.forEach((item) => {
+          const files = item.Files;
 
-          files.forEach(function(item) {
-            item["ChannelID"] = webcastCategory["ID"];
-            itemArray.push(item);
+          files.forEach((file) => {
+            file.ChannelID = webcastCategory.ID;
+            itemArray.push(file);
           });
         });
       });
 
       return itemArray;
     }
-    case "multimedia": {
-      let itemArray = [];
-      dataArray.forEach(function(webcastCategory) {
-        let files = webcastCategory["Files"];
-        files.forEach(function(item) {
-          item["ChannelID"] = webcastCategory["ID"];
+    case 'multimedia': {
+      const itemArray = [];
+      dataArray.forEach((webcastCategory) => {
+        const files = webcastCategory.Files;
+        files.forEach((item) => {
+          item.ChannelID = webcastCategory.ID;
           itemArray.push(item);
         });
       });
@@ -183,17 +182,17 @@ function handleDataType(dataType, dataArray) {
       // console.log(itemArray);
       return itemArray;
     }
-    case "announcement": // fallthrough
+    case 'announcement': // fallthrough
     default:
       return dataArray;
   }
 }
 
 function appendIdentifierTag(dataType, courseObj, dataArray) {
-  dataArray.forEach(function(dataObj) {
-    dataObj["CourseCode"] = courseObj["CourseCode"];
-    dataObj["CourseName"] = courseObj["CourseName"];
-    dataObj["_dataType"] = dataType;
+  dataArray.forEach((dataObj) => {
+    dataObj.CourseCode = courseObj.CourseCode;
+    dataObj.CourseName = courseObj.CourseName;
+    dataObj.dataType = dataType;
   });
 
   return dataArray;
