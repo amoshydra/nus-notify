@@ -12,6 +12,7 @@ export default class Container extends Component {
       list: Storage.dataDb.get('list').value()
     };
     this.observeDatabase();
+    this.renderList = this.renderList.bind(this);
   }
 
   observeDatabase() {
@@ -30,21 +31,22 @@ export default class Container extends Component {
     });
   }
 
-  render() {
-    let emptyMessage = '';
-    if (this.state.list.length <= 0) {
-      emptyMessage = <p>Nothing to see here.</p>;
+  renderList() {
+    if (this.state.list && this.state.list.length > 0) {
+      return this.state.list.map((announcement) =>
+        <li key={announcement.ID}>
+          <Annoncement announcement={announcement} />
+        </li>
+      );
     }
+    return <p>Nothing to see here.</p>;
+  }
 
+  render() {
     return (
       <div className="announcements">
         <ul>
-          {this.state.list.map((announcement) =>
-            <li key={announcement.ID}>
-              <Annoncement announcement={announcement} />
-            </li>
-          )}
-          {emptyMessage}
+          {this.renderList()}
         </ul>
       </div>
     );
