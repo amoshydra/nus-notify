@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack && cross-env NODE_ENV=development electron main.js"
+    "start": "webpack && cross-env NODE_ENV=development electron main.js",
+    "build": "webpack"
   },
   "author": "amoshydra",
   "license": "ISC",
