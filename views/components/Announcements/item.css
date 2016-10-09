@@ -26,7 +26,7 @@
   height: auto !important;
 }
 
-..expanded {
+.expanded {
   max-height: 9000px;
   overflow: hidden;
   transition: all 1s ease-in-out;
