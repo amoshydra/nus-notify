@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import Annoncement from './Item';
 import Storage from './../../../controllers/storage';
 
-// const JsonWatch = require('jsonwatch');
-
-// const dataDbListener = new JsonWatch('./data/datadb.json');
+const JsonWatch = require('jsonwatch');
 
 export default class Container extends Component {
   constructor(props) {
@@ -14,6 +12,23 @@ export default class Container extends Component {
     this.state = {
       list: Storage.dataDb.get('list').value()
     };
+    this.observeDatabase();
+  }
+
+  observeDatabase() {
+    const dataDbListener = new JsonWatch('./data/datadb.json');
+
+    dataDbListener.on('add', (path, data) => {
+      if (path === '/list') {
+        this.setState({ list: data });
+      }
+    });
+
+    dataDbListener.on('cng', (path, oldData, newData) => {
+      if (path === '/list') {
+        this.setState({ list: newData });
+      }
+    });
   }
 
   render() {
@@ -23,7 +38,7 @@ export default class Container extends Component {
     }
 
     return (
-      <div>
+      <div className="announcements">
         <ul>
           {this.state.list.map((announcement) =>
             <li key={announcement.ID}>
