@@ -1,6 +1,8 @@
 'use babel';
 
 import React, { Component, PropTypes } from 'react';
+import styles from './item.css';
+
 
 export default class Announcement extends Component {
   constructor(props) {
@@ -22,11 +24,15 @@ export default class Announcement extends Component {
 
   render() {
     const annObj = this.props.announcement;
+    console.log(styles);
     return (
-      <div className="announcement">
-        <button onClick={this.toggleDescription}>{annObj.Title}</button>
-        <div className={`${this.state.descriptionMode}  description`}>
-          <div className="content" dangerouslySetInnerHTML={{ __html: annObj.Description }} />
+      <div className={styles.announcement}>
+        <button className={styles.title} onClick={this.toggleDescription}>{annObj.Title}</button>
+        <div className={styles[this.state.descriptionMode]}>
+          <div
+            className={styles.content}
+            dangerouslySetInnerHTML={{ __html: annObj.Description }}
+          />
         </div>
       </div>
     );

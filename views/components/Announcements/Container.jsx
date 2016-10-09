@@ -1,10 +1,9 @@
 'use babel';
 
 import React, { Component } from 'react';
+import JsonWatch from 'jsonwatch';
 import Annoncement from './Item';
 import Storage from './../../../controllers/storage';
-
-const JsonWatch = require('jsonwatch');
 
 export default class Container extends Component {
   constructor(props) {
