@@ -1,14 +1,18 @@
 'use babel';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class Announcement extends Component {
+export default function Announcement(props) {
+  const annObj = props.announcement;
 
-  render() {
-    return (
-      <div>
-        <p> YES!! </p>
-      </div>
-    );
-  }
+  return (
+    <div className="announcement">
+      <div>{annObj.Title}</div>
+      <p dangerouslySetInnerHTML={{ __html: annObj.Description }} />
+    </div>
+  );
 }
+
+Announcement.propTypes = {
+  announcement: PropTypes.object
+};
