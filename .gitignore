@@ -3,9 +3,10 @@
 
 # API Key location
 data/config.js
+
 data/data.json
 data/*db.json
-
+dist
 
 # Created by https://www.gitignore.io/api/linux,node,osx,sublimetext,git,visualstudiocode,vagrant
 
