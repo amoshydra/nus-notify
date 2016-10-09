@@ -31,25 +31,23 @@ const DataProcessor = {
     const DataTypePromisesArray = [];
 
     // Loop through all the modules in the database
-    for (const course in courses) {
-      if ({}.hasOwnProperty.call(courses, course)) {
-        const courseId = course;
-        const courseObj = courses[course];
+    Object.keys(courses).map((courseId) => {
+      const courseObj = courses[courseId];
 
-        // for each module, loop through all the ID
-        DataProcessor.serviceToRetrieve.forEach((dataType) => {
-          const requestPromise = retrieveData(dataType, courseId, courseObj);
-          DataTypePromisesArray.push(requestPromise);
+      // for each module, loop through all the ID
+      DataProcessor.serviceToRetrieve.forEach((dataType) => {
+        const requestPromise = retrieveData(dataType, courseId, courseObj);
+        DataTypePromisesArray.push(requestPromise);
 
-          requestPromise.then((dataArray) => {
-            Array.prototype.push.apply(elementArray, dataArray);
-            return dataArray;
-          }).catch((error) => {
-            console.error(`Error processing returned promise: ${error}`);
-          });
+        requestPromise.then((dataArray) => {
+          Array.prototype.push.apply(elementArray, dataArray);
+          return dataArray;
+        }).catch((error) => {
+          console.error(`Error processing returned promise: ${error}`);
         });
-      }
-    }
+      });
+      return courseObj;
+    });
 
     // Wait until all function is done, then perform
     Promise.all(DataTypePromisesArray).then(() =>
