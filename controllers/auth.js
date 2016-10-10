@@ -1,16 +1,17 @@
 const electron = require('electron');
-const {BrowserWindow} = electron;
 const EventEmitter = require('events').EventEmitter;
+
+const { BrowserWindow } = electron;
 
 const Storage = require('../controllers/storage');
 const LAPI_KEY = require('../data/config');
 
-var Auth = {
+const Auth = {
 
   emitter: new EventEmitter(),
 
-  authenticate: function(parentWindow) {
-    let hasAuthToken = Storage.userDb.has('user.authToken').value();
+  authenticate: function authenticate(parentWindow) {
+    const hasAuthToken = Storage.userDb.has('user.authToken').value();
     if (!hasAuthToken) {
       AuthWindows.init(parentWindow);
     } else {
@@ -18,13 +19,13 @@ var Auth = {
     }
   },
 
-  notifySuccess: function() {
-    this.emitter.emit("authenticated");
+  notifySuccess: function notifySuccess() {
+    this.emitter.emit('authenticated');
   },
 };
 
 
-var AuthWindows = {
+const AuthWindows = {
   authWindow: null,
   authUrlPath: `https://ivle.nus.edu.sg/api/login/?apikey=${LAPI_KEY}&url=token`,
   windowProps: {
@@ -35,51 +36,48 @@ var AuthWindows = {
     parent: null
   },
 
-  init: function(parentWindow) {
+  init: function init(parentWindow) {
     this.windowProps.parent = parentWindow;
     this.authWindow = new BrowserWindow(this.windowProps);
     if (this.authWindow) {
-
       this.loadAuthPage();
       this.bindEventListener();
-
     } else {
-      console.error("Problem creating auth window");
+      console.error('Problem creating auth window');
     }
   },
 
-  bindEventListener: function() {
-    let self = this;
-    this.authWindow.once('ready-to-show', function() {
-      self.authWindow.webContents.insertCSS("body > table {display: none;}");
-      self.authWindow.show()
+  bindEventListener: function bindEventListener() {
+    const self = this;
+    this.authWindow.once('ready-to-show', () => {
+      self.authWindow.webContents.insertCSS('body > table {display: none;}');
+      self.authWindow.show();
     });
 
     this.authWindow.webContents.on('did-navigate', handleToken);
 
-    this.authWindow.on('closed', function() {
+    this.authWindow.on('closed', () => {
       this.authWindow = null;
     });
   },
 
-  loadAuthPage: function() {
+  loadAuthPage: function loadAuthPage() {
     this.authWindow.loadURL(this.authUrlPath);
   }
-}
+};
 
 function handleToken(event, urlStr) {
-  let token = getAuthToken(urlStr);
+  const token = getAuthToken(urlStr);
 
   if (token) {
     Storage.userDb.set('user.authToken', token).value();
 
     Auth.notifySuccess();
     AuthWindows.authWindow.hide();
-    setTimeout(function(){
+    setTimeout(() => {
       // closing the window too fast may interupt the event emitter
       AuthWindows.authWindow.close();
     }, 800);
-
   } else if (urlStr !== AuthWindows.authUrlPath) {
     AuthWindows.loadAuthPage();
   }
@@ -88,9 +86,9 @@ function handleToken(event, urlStr) {
 function getAuthToken(urlStr) {
   let token = null;
 
-  if (urlStr.indexOf("token?token=") > -1) {
-    let regexStr = /\?token=([0-9a-zA-Z]*)/g;
-    let match = regexStr.exec(urlStr);
+  if (urlStr.indexOf('token?token=') > -1) {
+    const regexStr = /\?token=([0-9a-zA-Z]*)/g;
+    const match = regexStr.exec(urlStr);
 
     token = match[1];
   }

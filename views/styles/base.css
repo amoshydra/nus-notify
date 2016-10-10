@@ -1,0 +1,64 @@
+/* Default settings */
+
+body {
+  /*font-family: 16px/1.6 "Open Sans" ,Georgia, serif;*/
+  font-family: Arial;
+  margin: 0;
+  overflow: auto;
+  background-color: rgb(250, 250, 250);
+}
+
+button, input[type=button] {
+  background-color: #4CAF50; /* Green */
+  width: 100%;
+  border: none;
+  color: white;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+} button:focus, input[type=button]:focus {
+  outline: none;
+}
+
+/* Utility Fix */
+.hidden {
+  display: none;
+}
+
+.wrap-wrap-fix {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Components */
+#aSide {
+  position: fixed;
+  top: 0;
+  let: 0;
+  width: 70px;
+  height: 100%;
+  background-color: rgb(39, 186, 176);
+}
+
+#content {
+  position: relative;
+  left: calc(70px + 4px);
+  height: 100%;
+  width: calc(100% - 70px - 8px);
+  overflow-x:auto;
+}

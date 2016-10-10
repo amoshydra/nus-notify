@@ -1,6 +1,6 @@
-const low = require("lowdb");
+const low = require('lowdb');
 
-var Storage = {
+const Storage = {
   dataDb: low('./data/datadb.json'),
   userDb: low('./data/userdb.json')
 };

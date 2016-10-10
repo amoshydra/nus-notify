@@ -1,84 +1,18 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Notify</title>
-  <link href="../styles/index.css" rel="stylesheet" type="text/css">
-</head>
-
-<body class="wrap-wrap-fix">
-  <!-- Modal -->
-  <div class="modal container hidden">
-    <div class="overlay"></div>
-    <div class="content">
-      <div class="login"></div>
-    </div>
-  </div>
-
-  <div id="loading" class="modal container">
-    <div class="overlay"></div>
-    <div class="content loading">
-      <img src="../assets/loading.gif">
-      <p>Loading</p>
-    </div>
-  </div>
-
-
-  <div class="nav"></div>
-  <div id="content">
-    <ul id="announcements"></ul>
-    <script id="announcement" type="x-tmpl-mustache">
-      <div class="announcement">
-
-        <div class="heading js-collapsible-toggle">
-          <table>
-            <tr>
-              <td class="module-code">
-                <div>
-                  <span class="verticle">{{CourseCode}}</span>
-                </div>
-              </td>
-              <td class="title">📢 {{Title}}</div></td>
-            </tr>
-          </table>
-
-        </div>
-        <div class="description js-collapsible-target">
-          <div class="row">
-            {{{Description}}}
-          </div>
-          <p class="create-date">{{CreatedDate_js}}</p>
-        </div>
-      </div>
-    </script>
-
-    <script id="webcast" type="x-tmpl-mustache">
-      <div class="announcement">
-
-        <div class="heading js-collapsible-toggle">
-          <table>
-            <tr>
-              <td class="module-code">
-                <div>
-                  <span class="verticle">{{CourseCode}}</span>
-                </div>
-              </td>
-              <td class="title">📹 {{FileTitle}}</div></td>
-            </tr>
-          </table>
-
-        </div>
-        <div class="description js-collapsible-target">
-          <div class="row">
-            <a href=https://ivle.nus.edu.sg/v1/bank/media/viewmedia.aspx?MediaItemID={{ID}}&ChannelID={{ChannelID}}>Open video link</a>
-            <p class="create-date">{{CreateDate_js}}</p>
-          </div>
-        </div>
-      </div>
-    </script>
-
-  </div>
-
-  <script>require('../scripts/index.js')</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Notify</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i|Oxygen:700" rel="stylesheet">
+    <link href="./styles/base.css" rel="stylesheet" >
+    <link href="../dist/styles.css" rel="stylesheet" type="text/css">
+    <script>require('babel-register');</script>
+    <script>require('css-modules-require-hook/preset');</script>
+    <script>require('./components/App');</script>
+  </head>
+  <body class="wrap-wrap-fix">
+    <div id="react-target"></div>
+  </body>
 </html>
