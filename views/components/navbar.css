@@ -1,19 +1,27 @@
-.navBar {
-  padding-top: 1.5px;
-}
-
 .navBar > ul {
   margin: 0;
   padding: 0;
 } .navBar > ul > li {
-  margin: 3px 0;
   list-style: none;
 }
 
 .navButton {
   padding: 18px 0;
   text-align: center;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0);
+  transition: all 0.5s;
 } .navButton > i {
-  font-size: 1.95em;
+  color: white;
+  font-size: 1.98em;
+  opacity: 0.6;
+  transition: all 0.5s;
+}
+
+.navActive {
+  background-color: rgba(0,0,0,0.1);
+  box-shadow: inset -2px 2px 3px 0px rgba(0,0,0,0.05);
+  transition: all 0.5s;
+} .navActive > i {
+  opacity: 1.0;
+  transition: all 0.5s;
 }
