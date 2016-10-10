@@ -1,39 +1,18 @@
 'use babel';
 
-import React, { Component } from 'react';
-import JsonWatch from 'jsonwatch';
+import React, { Component, PropTypes } from 'react';
 import Annoncement from './Item';
-import Storage from './../../../controllers/storage';
 import styles from './container.css';
 
 export default class Container extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      list: Storage.dataDb.get('list').value()
-    };
-    this.observeDatabase();
+
     this.renderList = this.renderList.bind(this);
   }
 
-  observeDatabase() {
-    const dataDbListener = new JsonWatch('./data/datadb.json');
-
-    dataDbListener.on('add', (path, data) => {
-      if (path === '/list') {
-        this.setState({ list: data });
-      }
-    });
-
-    dataDbListener.on('cng', (path, oldData, newData) => {
-      if (path === '/list') {
-        this.setState({ list: newData });
-      }
-    });
-  }
-
   renderList() {
-    const dataList = this.state.list;
+    const dataList = this.props.list;
 
     if (dataList && dataList.length > 0) {
       return dataList.filter((dataItem) =>
@@ -57,3 +36,7 @@ export default class Container extends Component {
     );
   }
 }
+
+Container.propTypes = {
+  list: PropTypes.array
+};
