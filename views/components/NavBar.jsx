@@ -11,12 +11,12 @@ export default class NavBar extends Component {
 
   checkIsActive(currentElement) {
     console.log(currentElement);
-    return (currentElement === this.props.windowToRender) ? styles.navActive : '';
+    return (currentElement.toLowerCase() === this.props.windowToRender.toLowerCase()) ? styles.navActive : '';
   }
 
   render() {
     const navToRender = [{
-      name: 'announcement',
+      name: 'announcements',
       icon: 'announcement'
     }, {
       name: 'multimedia',

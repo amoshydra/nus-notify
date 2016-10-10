@@ -8,7 +8,7 @@ export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      windowToRender: 'announcement'
+      windowToRender: 'Announcements'
     };
 
     this.switchView = this.switchView.bind(this);
