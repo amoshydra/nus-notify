@@ -2,6 +2,7 @@ const electron = require('electron');
 const Auth = require('./controllers/auth');
 const Tray = require('./controllers/tray');
 const TaskRunner = require('./controllers/taskRunner');
+const localShortcut = require('electron-localshortcut');
 
 const { app, BrowserWindow, shell } = electron;
 
@@ -27,8 +28,22 @@ const AppWindows = {
     this.backgroundProcess = new BrowserWindow({ show: false });
     this.mainWindow = new BrowserWindow({ width: 800, height: 600, show: true, icon: `${__dirname}/app.ico` });
     this.mainWindow.loadURL(`${__dirname}/views/index.html`);
+    this.mainWindow.setMenu(null);
 
+    this.configureLocalShortcut();
     this.bindEventListener();
+  },
+
+  configureLocalShortcut: function configureLocalShortcut() {
+    const windowToRegister = this.mainWindow;
+
+    localShortcut.register(windowToRegister, 'CommandOrControl+R', () => {
+      this.mainWindow.reload();
+    });
+
+    localShortcut.register(windowToRegister, 'CommandOrControl+Shift+I', () => {
+      this.mainWindow.toggleDevTools();
+    });
   },
 
   bindEventListener: function bindEventListener() {
