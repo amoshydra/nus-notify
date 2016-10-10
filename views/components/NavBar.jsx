@@ -5,13 +5,44 @@ import styles from './navbar.css';
 
 export default class NavBar extends Component {
 
+  handleClick(view) {
+    this.props.switchView(view);
+  }
+
+  checkIsActive(currentElement) {
+    console.log(currentElement);
+    return (currentElement === this.props.windowToRender) ? styles.navActive : '';
+  }
+
   render() {
+    const navToRender = [{
+      name: 'announcement',
+      icon: 'announcement'
+    }, {
+      name: 'multimedia',
+      icon: 'video_library'
+    }, {
+      name: 'forum',
+      icon: 'forum'
+    }];
+    const self = this;
     return (
       <div className={styles.navBar}>
         <ul>
-          <li><button className={styles.navButton} onClick={this.props.switchView.bind(null, 'announcement')}><i className="material-icons">announcement</i></button></li>
-          <li><button className={styles.navButton} onClick={this.props.switchView.bind(null, 'webcast')}><i className="material-icons">video_library</i></button></li>
-          <li><button className={styles.navButton} onClick={this.props.switchView.bind(null, 'forum')}><i className="material-icons">forum</i></button></li>
+          {navToRender.map((navElement) =>
+            <li key={navElement.name}>
+              <button
+                className={`${styles.navButton} ${this.checkIsActive(navElement.name)}`}
+                onClick={function onClick() {
+                  self.handleClick(navElement.name);
+                }}
+              >
+                <i className="material-icons">
+                  {navElement.icon}
+                </i>
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     );
