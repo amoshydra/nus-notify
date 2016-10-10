@@ -26,7 +26,15 @@ export default class Main extends Component {
           <NavBar switchView={this.switchView} windowToRender={this.state.windowToRender} />
         </div>
         <div id="content">
-          <Announcements />
+          {(() => {
+            switch (this.state.windowToRender) {
+              case 'announcements': return <Announcements />;
+              case 'multimedia': return <Multimedia />;
+              case 'forum': return <Announcements />;
+              default: return <Announcements />;
+            }
+          })()}
+
         </div>
       </div>
     );
