@@ -63,15 +63,3 @@ button {
   width: calc(100% - 70px - 8px);
   overflow-x:auto;
 }
-
-.announcements {
-  padding: 4px 10px;
-  padding-right: 20px;
-}
-
-.announcements > ul {
-  margin: 0;
-  padding: 0;
-} .announcements > ul > li {
-  list-style: none;
-}

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import JsonWatch from 'jsonwatch';
 import Annoncement from './Item';
 import Storage from './../../../controllers/storage';
+import styles from './container.css';
 
 export default class Container extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ export default class Container extends Component {
 
   render() {
     return (
-      <div className="announcements">
+      <div className={styles.announcements}>
         <ul>
           {this.renderList()}
         </ul>

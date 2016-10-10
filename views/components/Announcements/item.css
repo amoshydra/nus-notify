@@ -21,7 +21,7 @@
   line-height: 1.4;
 }
 
-.announcement .description .content img {
+.content img {
   max-width: 100%;
   height: auto !important;
 }
