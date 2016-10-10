@@ -24,7 +24,6 @@ export default class Announcement extends Component {
 
   render() {
     const annObj = this.props.announcement;
-    console.log(styles);
     return (
       <div className={styles.announcement}>
         <button className={styles.title} onClick={this.toggleDescription}>{annObj.Title}</button>
