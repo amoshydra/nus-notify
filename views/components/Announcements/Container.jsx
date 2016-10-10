@@ -33,8 +33,12 @@ export default class Container extends Component {
   }
 
   renderList() {
-    if (this.state.list && this.state.list.length > 0) {
-      return this.state.list.map((announcement) =>
+    const dataList = this.state.list;
+
+    if (dataList && dataList.length > 0) {
+      return dataList.filter((dataItem) =>
+        (dataItem.dataType === 'Announcements')
+      ).map((announcement) =>
         <li key={announcement.ID}>
           <Annoncement announcement={announcement} />
         </li>
