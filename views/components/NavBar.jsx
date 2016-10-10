@@ -10,7 +10,6 @@ export default class NavBar extends Component {
   }
 
   checkIsActive(currentElement) {
-    console.log(currentElement);
     return (currentElement.toLowerCase() === this.props.windowToRender.toLowerCase()) ? styles.navActive : '';
   }
 
