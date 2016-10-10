@@ -51,4 +51,5 @@ export default class NavBar extends Component {
 
 NavBar.propTypes = {
   windowToRender: PropTypes.string.isRequired,
+  switchView: PropTypes.func.isRequired
 };
