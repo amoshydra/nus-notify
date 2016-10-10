@@ -1,0 +1,19 @@
+.navBar {
+  padding-top: 1.5px;
+}
+
+.navBar > ul {
+  margin: 0;
+  padding: 0;
+} .navBar > ul > li {
+  margin: 3px 0;
+  list-style: none;
+}
+
+.navButton {
+  padding: 18px 0;
+  text-align: center;
+  background-color: rgba(0,0,0,0.1);
+} .navButton > i {
+  font-size: 1.95em;
+}

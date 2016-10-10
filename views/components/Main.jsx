@@ -7,17 +7,23 @@ import Announcements from './Announcements/Container';
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       windowToRender: 'announcement'
     };
+
+    this.switchView = this.switchView.bind(this);
+  }
+
+  switchView(view) {
+    this.setState({ windowToRender: view });
+    console.log(view);
   }
 
   render() {
     return (
       <div>
         <div id="aSide">
-          <NavBar windowToRender={this.state.windowToRender} />
+          <NavBar switchView={this.switchView} windowToRender={this.state.windowToRender} />
         </div>
         <div id="content">
           <Announcements />
