@@ -17,9 +17,9 @@ export default class Container extends Component {
     if (dataList && dataList.length > 0) {
       return dataList.filter((dataItem) =>
         (dataItem.dataType === 'Announcements')
-      ).map((announcement) =>
-        <li key={announcement.ID}>
-          <Annoncement announcement={announcement} />
+      ).map((dataItem) =>
+        <li key={dataItem.ID}>
+          <Annoncement announcement={dataItem} />
         </li>
       );
     }
