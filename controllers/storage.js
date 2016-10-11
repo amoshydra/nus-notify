@@ -2,17 +2,27 @@ const low = require('lowdb');
 const JsonWatch = require('jsonwatch');
 
 function StorageFactory(filePath) {
+  const jsonWatcher = new JsonWatch(filePath);
+  const thisDb = low(filePath);
+
   return {
     path: filePath,
-    db: low(filePath),
-    jsonWatch: new JsonWatch(filePath),
-    watchPath: function watchPath(pathToWatch, callback) {
-      this.jsonWatch.on('add', (affectedPath, data) => {
+    get: function get(path) {
+      return thisDb.get(path).value();
+    },
+    set: function set(path, value) {
+      return thisDb.set(path, value).value();
+    },
+    has: function has(path) {
+      return thisDb.has(path).value();
+    },
+    watch: function watch(pathToWatch, callback) {
+      jsonWatcher.on('add', (affectedPath, data) => {
         if (affectedPath === pathToWatch) {
           callback(data);
         }
       });
-      this.jsonWatch.on('cng', (affectedPath, oldData, data) => {
+      jsonWatcher.on('cng', (affectedPath, oldData, data) => {
         if (affectedPath === pathToWatch) {
           callback(data);
         }

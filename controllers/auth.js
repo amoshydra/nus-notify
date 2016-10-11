@@ -11,7 +11,7 @@ const Auth = {
   emitter: new EventEmitter(),
 
   authenticate: function authenticate(parentWindow) {
-    const hasAuthToken = Storage.user.db.has('user.authToken').value();
+    const hasAuthToken = Storage.user.has('user.authToken');
     if (!hasAuthToken) {
       AuthWindows.init(parentWindow);
     } else {
@@ -70,7 +70,7 @@ function handleToken(event, urlStr) {
   const token = getAuthToken(urlStr);
 
   if (token) {
-    Storage.user.db.set('user.authToken', token).value();
+    Storage.user.set('user.authToken', token);
 
     Auth.notifySuccess();
     AuthWindows.authWindow.hide();

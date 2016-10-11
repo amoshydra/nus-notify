@@ -25,7 +25,7 @@ const DataProcessor = {
   },
 
   updateDatabase: function updateDatabase() {
-    const courses = Storage.user.db.get('modules').value();
+    const courses = Storage.user.get('modules');
 
     const elementArray = [];
     const DataTypePromisesArray = [];
@@ -76,15 +76,13 @@ function filterModuleIds(data) {
 }
 
 function storeModulesIds(data) {
-  Storage.user.db
-         .set('modules', data)
-         .value();
+  Storage.user.set('modules', data);
 }
 
 const finaliseData = function finaliseData(dataArray) {
   dataArray = formatData(dataArray);
-  Storage.data.db.set('date', Date.now()).value();
-  Storage.data.db.set('list', dataArray).value();
+  Storage.data.set('date', Date.now());
+  Storage.data.set('list', dataArray);
 };
 
 const formatData = function formatData(dataArray) {

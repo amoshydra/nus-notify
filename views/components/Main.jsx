@@ -11,7 +11,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       windowToRender: 'announcements',
-      list: Storage.data.db.get('list').value()
+      list: Storage.data.get('list')
     };
 
     this.observeDatabase('list');
@@ -19,7 +19,7 @@ export default class Main extends Component {
   }
 
   observeDatabase(pathToWatch) {
-    Storage.data.watchPath(`/${pathToWatch}`, (data) => {
+    Storage.data.watch(`/${pathToWatch}`, (data) => {
       this.setState({ list: data });
     });
   }
