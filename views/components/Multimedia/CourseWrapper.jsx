@@ -1,30 +1,22 @@
 'use babel';
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Multimedia from './Multimedia';
 
-export default class CourseWrapper extends Component {
+const CourseWrapper = ({ course, mediaList }) => (
+  <div>
+    <h3>{course.CourseCode} {course.CourseName}</h3>
+    <ul>
+      { mediaList.map((dataItem) =>
+        <li key={dataItem.ID}>
+          <Multimedia dataItem={dataItem} />
+        </li>
+      )}
+    </ul>
+  </div>
+);
 
-  renderList() {
-    const mediaList = this.props.mediaList;
-    return mediaList.map((dataItem) =>
-      <li key={dataItem.ID}>
-        <Multimedia dataItem={dataItem} />
-      </li>
-    );
-  }
-
-  render() {
-    return (
-      <div>
-        <h3>{this.props.course.CourseCode} {this.props.course.CourseName}</h3>
-        <ul>
-          {this.renderList()}
-        </ul>
-      </div>
-    );
-  }
-}
+export default CourseWrapper;
 
 CourseWrapper.propTypes = {
   course: PropTypes.object,
