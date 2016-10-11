@@ -41,9 +41,9 @@ const Requester = {
     const authInfo = `?APIKey=${authObj.apikey}&AuthToken=${authObj.token}`;
 
     let completeUrl = ivleUrl + authInfo;
-    for (const key in requestParams) {
+    Object.keys(requestParams).forEach((key) => {
       completeUrl += `&${key}=${requestParams[key]}`;
-    }
+    });
     return completeUrl;
   }
 };
