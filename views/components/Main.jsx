@@ -1,7 +1,6 @@
 'use babel';
 
 import React, { Component } from 'react';
-import JsonWatch from 'jsonwatch';
 import NavBar from './NavBar';
 import Announcements from './Announcements/Container';
 import Multimedia from './Multimedia/Container';
@@ -12,26 +11,16 @@ export default class Main extends Component {
     super(props);
     this.state = {
       windowToRender: 'announcements',
-      list: Storage.dataDb.get('list').value()
+      list: Storage.data.db.get('list').value()
     };
 
-    this.observeDatabase();
+    this.observeDatabase('list');
     this.switchView = this.switchView.bind(this);
   }
 
-  observeDatabase() {
-    const dataDbListener = new JsonWatch('./data/datadb.json');
-
-    dataDbListener.on('add', (path, data) => {
-      if (path === '/list') {
-        this.setState({ list: data });
-      }
-    });
-
-    dataDbListener.on('cng', (path, oldData, newData) => {
-      if (path === '/list') {
-        this.setState({ list: newData });
-      }
+  observeDatabase(pathToWatch) {
+    Storage.data.watchPath(`/${pathToWatch}`, (data) => {
+      this.setState({ list: data });
     });
   }
 

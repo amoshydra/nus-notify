@@ -49,7 +49,7 @@ const Requester = {
 };
 
 const getUserToken = function getUserToken() {
-  return Storage.userDb.get('user.authToken').value();
+  return Storage.user.db.get('user.authToken').value();
 };
 
 module.exports = Requester;
