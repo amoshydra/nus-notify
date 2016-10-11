@@ -1,7 +1,7 @@
 'use babel';
 
 import React, { Component, PropTypes } from 'react';
-import styles from './item.css';
+import styles from './announcement.css';
 
 
 export default class Announcement extends Component {
