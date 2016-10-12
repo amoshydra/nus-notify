@@ -16,7 +16,7 @@ export default class Container extends Component {
     const dataList = this.props.list;
 
     const mediaList = dataList.filter((dataItem) =>
-      (dataItem.dataType === 'Multimedia' || dataItem.dataType === 'Webcast')
+      (dataItem.dataType === 'Multimedia' || dataItem.dataType === 'Webcasts')
     );
 
     return courseList.map((course) => {
