@@ -2,8 +2,7 @@
 
 import React, { Component } from 'react';
 import NavBar from './NavBar';
-import Announcements from './Announcements/Container';
-import Multimedia from './Multimedia/Container';
+import ComponentList from './Shared/componentList';
 import Storage from './../../controllers/storage';
 
 export default class Main extends Component {
@@ -16,6 +15,7 @@ export default class Main extends Component {
 
     this.observeDatabase('list');
     this.switchView = this.switchView.bind(this);
+    this.renderContainer = this.renderContainer.bind(this);
   }
 
   observeDatabase(pathToWatch) {
@@ -28,22 +28,23 @@ export default class Main extends Component {
     this.setState({ windowToRender: view });
   }
 
+  renderContainer(containerName) {
+    const Container = ComponentList[containerName].container;
+    return <Container list={this.state.list} />;
+  }
+
   render() {
     return (
       <div>
         <div id="aSide">
-          <NavBar switchView={this.switchView} windowToRender={this.state.windowToRender} />
+          <NavBar
+            switchView={this.switchView}
+            windowToRender={this.state.windowToRender}
+            componentList={ComponentList}
+          />
         </div>
         <div id="content">
-          {(() => {
-            switch (this.state.windowToRender) {
-              case 'announcements': return <Announcements list={this.state.list} />;
-              case 'multimedia': return <Multimedia list={this.state.list} />;
-              case 'forum': return <Announcements list={this.state.list} />;
-              default: return <Announcements list={this.state.list} />;
-            }
-          })()}
-
+          { this.renderContainer(this.state.windowToRender) }
         </div>
       </div>
     );

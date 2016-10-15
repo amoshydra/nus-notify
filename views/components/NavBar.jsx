@@ -14,30 +14,21 @@ export default class NavBar extends Component {
   }
 
   render() {
-    const navToRender = [{
-      name: 'announcements',
-      icon: 'announcement'
-    }, {
-      name: 'multimedia',
-      icon: 'video_library'
-    }, {
-      name: 'forum',
-      icon: 'forum'
-    }];
     const self = this;
+    const compList = this.props.componentList;
     return (
       <div className={styles.navBar}>
         <ul>
-          {navToRender.map((navElement) =>
-            <li key={navElement.name}>
+          {Object.keys(compList).map((name) =>
+            <li key={name}>
               <button
-                className={`${styles.navButton} ${this.checkIsActive(navElement.name)}`}
+                className={`${styles.navButton} ${this.checkIsActive(name)}`}
                 onClick={function onClick() {
-                  self.handleClick(navElement.name);
+                  self.handleClick(name);
                 }}
               >
                 <i className="material-icons">
-                  {navElement.icon}
+                  {compList[name].icon}
                 </i>
               </button>
             </li>
@@ -49,6 +40,7 @@ export default class NavBar extends Component {
 }
 
 NavBar.propTypes = {
+  componentList: PropTypes.object.isRequired,
   windowToRender: PropTypes.string.isRequired,
   switchView: PropTypes.func.isRequired
 };
