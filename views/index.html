@@ -7,12 +7,24 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i|Oxygen:700" rel="stylesheet">
     <link href="./styles/base.css" rel="stylesheet" >
-    <link href="../dist/styles.css" rel="stylesheet" type="text/css">
+    <script>
+      if (!(process.env.NODE_ENV === 'development')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../dist/style.css';
+        document.write(link.outerHTML);
+      }
+    </script>
   </head>
   <body class="wrap-wrap-fix">
     <div id="react-target"></div>
-    <script>require('babel-register');</script>
-    <script>require('css-modules-require-hook/preset');</script>
-    <script>require('./components/App');</script>
+    <script>
+      {
+        const script = document.createElement('script');
+        const port = process.env.PORT || 3030;
+        script.src = (process.env.NODE_ENV === 'development') ? `http://localhost:${port}/dist/bundle.js` : '../dist/bundle.js';
+        document.write(script.outerHTML);
+      }
+    </script>
   </body>
 </html>
