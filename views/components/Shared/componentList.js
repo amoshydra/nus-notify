@@ -1,5 +1,6 @@
 import Announcements from '../Announcements/Container';
 import Multimedia from '../Multimedia/Container';
+import Forum from '../Forum/Container';
 
 const componentList = {
   announcements: {
@@ -11,7 +12,7 @@ const componentList = {
     icon: 'video_library'
   },
   forum: {
-    container: Announcements,
+    container: Forum,
     icon: 'forum'
   }
 };
