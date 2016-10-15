@@ -2,17 +2,18 @@
 
 import React, { PropTypes } from 'react';
 import Multimedia from './Multimedia';
+import styles from './coursewrapper.css';
 
 const CourseWrapper = ({ course, mediaList }) => (
-  <div>
-    <h3>{course.CourseCode} {course.CourseName}</h3>
-    <ul>
+  <div className={styles.wrapper}>
+    <div className={styles.title}>
+      <span className={styles.code}>{course.CourseCode}</span> <span className={styles.name}>{course.CourseName}</span>
+    </div>
+    <div className={styles.contents}>
       { mediaList.map((dataItem) =>
-        <li key={dataItem.ID}>
-          <Multimedia dataItem={dataItem} />
-        </li>
+        <Multimedia key={dataItem.ID} dataItem={dataItem} />
       )}
-    </ul>
+    </div>
   </div>
 );
 
