@@ -26,7 +26,7 @@ const AppWindows = {
 
   init: function init() {
     this.backgroundProcess = new BrowserWindow({ show: false });
-    this.mainWindow = new BrowserWindow({ width: 800, height: 600, show: true, icon: `${__dirname}/app.ico` });
+    this.mainWindow = new BrowserWindow({ width: 800, height: 600, show: true, icon: `${__dirname}/app.ico`, backgroundColor: '#263956' });
     this.mainWindow.loadURL(`${__dirname}/views/index.html`);
     this.mainWindow.setMenu(null);
 

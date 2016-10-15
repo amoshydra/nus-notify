@@ -50,6 +50,29 @@ button, input[type=button] {
   position: relative;
   left: calc(70px + 4px);
   height: 100%;
-  width: calc(100% - 70px - 8px);
+  width: calc(100% - (70px + 4px));
   overflow-x:auto;
+}
+
+
+#preloaded {
+  background-color: #263956;
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  color: white;
+} #preloaded .container {
+  margin: auto;
+  padding-top: 30vh;
+  position: relative;
+  height: 200px;
+} #preloaded img {
+  height: 20vh;
+} #preloaded .title {
+  margin-top: 3vh;
+  font-size: 5vh;
+} #preloaded .loading {
+  margin-top: 1.5vh;
+  opacity: 0.6;
+  font-size: 2.5vh;
 }
