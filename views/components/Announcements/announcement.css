@@ -1,5 +1,6 @@
 .announcement {
-  margin: 12px;
+  margin: 0;
+  margin-bottom: 12px;
   box-shadow: 0px 2px 3px 1px rgba(0,0,0,0.09);
 }
 

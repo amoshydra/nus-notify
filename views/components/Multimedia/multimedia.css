@@ -1,14 +1,22 @@
 .media {
   display: inline-block;
   margin: 7px;
-  padding: 10px;
+  margin-left: 0;
   background-color: rgb(245, 245, 245);
   box-shadow: 0.2px 0.5px 5px 0 rgba(0,0,0,0.3);
   font-size: 0.9em;
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
 .media a {
+  display: block;
   text-decoration:none;
   color: black;
   opacity: 0.8;
+  padding: 10px;
+}
+
+.media:hover {
+  transform: translateY(-2px);
+  box-shadow: 0.2px 0.5px 8px 0 rgba(0,0,0,0.2);
 }
