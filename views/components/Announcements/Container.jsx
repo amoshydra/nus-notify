@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Annoncement from './Announcement';
-import styles from './container.css';
+import styles from '../Shared/styles/container.css';
 
 export default class Container extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ export default class Container extends Component {
 
   render() {
     return (
-      <div className={styles.announcements}>
+      <div className={styles.container}>
         <ul>
           {this.renderList()}
         </ul>

@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import CourseWrapper from './CourseWrapper';
 import Storage from './../../../controllers/storage';
+import styles from '../Shared/styles/container.css';
 
 export default class Container extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export default class Container extends Component {
     }
 
     return (
-      <div>
+      <div className={styles.container}>
         {this.renderCourses()}
       </div>
     );

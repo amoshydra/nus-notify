@@ -1,11 +1,11 @@
-.announcements {
+.container {
   padding: 4px 10px;
   padding-right: 20px;
 }
 
-.announcements > ul {
+.container > ul {
   margin: 0;
   padding: 0;
-} .announcements > ul > li {
+} .container > ul > li {
   list-style: none;
 }
