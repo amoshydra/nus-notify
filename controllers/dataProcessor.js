@@ -8,7 +8,7 @@ const DataProcessor = {
     'CourseCode', 'CourseName', 'Forums', 'Workbins', 'Webcasts', 'Gradebooks', 'Multimedia'
   ],
   serviceToRetrieve: [
-    'Announcements', 'Webcasts', 'Multimedia'
+    'Announcements', 'Webcasts', 'Multimedia', 'Forums'
   ],
 
   updateModuleIds: function updateModuleIds() {
@@ -101,7 +101,9 @@ function retrieveData(dataType, courseId, courseObj) {
     const requestParams = {
       Duration: 0,
       ShowTitleOnly: false,
-      CourseID: courseId
+      CourseID: courseId,
+      IncludeThreads: true,
+      TitleOnly: false
     };
 
     Requester.requestJson(dataType, requestParams).then((data) => {
@@ -150,6 +152,7 @@ function handleDataType(dataType, dataArray) {
       return itemArray;
     }
     case 'announcement': // fallthrough
+    case 'forums':
     default:
       return dataArray;
   }
