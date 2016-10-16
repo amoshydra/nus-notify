@@ -1,6 +1,7 @@
 'use babel';
 
 import React, { Component, PropTypes } from 'react';
+import DOMPurify from 'dompurify';
 import styles from './announcement.css';
 
 
@@ -30,7 +31,7 @@ export default class Announcement extends Component {
         <div className={styles[this.state.descriptionMode]}>
           <div
             className={styles.content}
-            dangerouslySetInnerHTML={{ __html: annObj.Description }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(annObj.Description) }}
           />
         </div>
       </div>
