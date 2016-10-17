@@ -1,5 +1,5 @@
 # IVLE Notify
-A prototype created with Electron to display a list of announcement from IVLE
+A prototype created with [Electron](electron.atom.io) + [React](https://facebook.github.io/react/) to display a list of announcement from IVLE
 
 # Running this app
 ```
@@ -15,7 +15,9 @@ Follow the steps below to set up your LAPI key
 
 If you do not have a LAPI key, visit http://ivle.nus.edu.sg/LAPI/default.aspx to get one.
 
+## Project Wiki
+https://github.com/amoshydra/nus-notify/wiki/Project-Wiki
 
-
-**Credits:**
-App icon taken from [graphicloads](http://www.iconarchive.com/show/100-flat-icons-by-graphicloads.html)
+# Credits:
+- App icon taken from [graphicloads](http://www.iconarchive.com/show/100-flat-icons-by-graphicloads.html)
+- Electron + React + Webpack configuration is referenced from [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate)
