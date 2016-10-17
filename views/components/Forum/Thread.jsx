@@ -24,7 +24,6 @@ export default class Container extends Component {
   }
 
   toggle() {
-    console.log(this.state.display);
     if (this.state.display === 'hidden') {
       this.setState({ display: '' });
     } else {
