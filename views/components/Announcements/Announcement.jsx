@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import DOMPurify from 'dompurify';
 import styles from './announcement.css';
-
+import ColorCoder from './../Shared/helpers/colorCoder'
 
 export default class Announcement extends Component {
   constructor(props) {
@@ -25,9 +25,16 @@ export default class Announcement extends Component {
 
   render() {
     const annObj = this.props.announcement;
+    console.log(annObj.CourseCode);
     return (
       <div className={styles.announcement}>
-        <button className={styles.title} onClick={this.toggleDescription}>{annObj.Title}</button>
+        <button
+          className={styles.title}
+          style={{backgroundColor: ColorCoder.resolveColor(annObj.CourseCode)}}
+          onClick={this.toggleDescription}
+        >
+          {annObj.Title}
+        </button>
         <div className={styles[this.state.descriptionMode]}>
           <div
             className={styles.content}
