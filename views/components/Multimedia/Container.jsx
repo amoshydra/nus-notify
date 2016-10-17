@@ -36,7 +36,8 @@ export default class Container extends Component {
 
   render() {
     const dataList = this.props.list;
-    if (!dataList || dataList.length <= 0) {
+    // TODO perhaps shouldn't use get module next time
+    if (!dataList || dataList.length <= 0 || !Storage.user.has('modules')) {
       return (
         <p>Loading data...</p>
       );
