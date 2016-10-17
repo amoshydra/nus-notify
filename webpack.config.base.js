@@ -8,7 +8,7 @@ const validate = require('webpack-validator');
 const config = validate({
   entry: [
     'babel-polyfill',
-    './views/components/App.jsx'
+    './views/App.jsx'
   ],
 
   module: {
