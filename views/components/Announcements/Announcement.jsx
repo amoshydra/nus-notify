@@ -25,7 +25,6 @@ export default class Announcement extends Component {
 
   render() {
     const annObj = this.props.announcement;
-    console.log(annObj.CourseCode);
     return (
       <div className={styles.announcement}>
         <button
