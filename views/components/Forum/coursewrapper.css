@@ -1,0 +1,19 @@
+.wrapper {
+  margin: 0;
+  margin-bottom: 50px;
+}
+
+.wrapper .title {
+  opacity: 0.6;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 4px;
+} .wrapper .title .code {
+} .wrapper .title .name {
+  font-size: 0.8em;
+  opacity: 0.5;
+}
+
+.wrapper .contents {
+
+}
