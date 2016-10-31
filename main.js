@@ -41,9 +41,12 @@ const AppWindows = {
       this.mainWindow.reload();
     });
 
-    localShortcut.register(windowToRegister, 'CommandOrControl+Shift+I', () => {
-      this.mainWindow.toggleDevTools();
-    });
+    // Development only shortcut
+    if (process.env.NODE_ENV === 'development') {
+      localShortcut.register(windowToRegister, 'CommandOrControl+Shift+I', () => {
+        this.mainWindow.toggleDevTools();
+      });
+    }
   },
 
   bindEventListener: function bindEventListener() {
