@@ -1,6 +1,8 @@
 # IVLE Notify
 A prototype created with [Electron](electron.atom.io) + [React](https://facebook.github.io/react/) to display a list of announcement from IVLE
 
+![](http://i.imgur.com/d1cWaAm.png)
+
 # Running this app
 ```
 npm install && npm start
