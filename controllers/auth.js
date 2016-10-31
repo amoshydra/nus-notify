@@ -5,7 +5,16 @@ const EventEmitter = require('events').EventEmitter;
 const { BrowserWindow } = electron;
 
 const Storage = require('../controllers/storage');
-const LAPI_KEY = require('../data/config');
+let LAPI_KEY;
+try {
+  LAPI_KEY = require('../data/config');
+} catch(e) {
+    console.error(' Error:')
+    console.error(' > NUS LAPI key is not set up correctly.');
+    console.error(' > If you are a developer, please check \'data/config.sample.js\' for instruction.');
+    console.error('\n Exiting app...');
+    process.exit(e.code);
+}
 
 const Auth = {
 
