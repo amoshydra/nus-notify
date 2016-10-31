@@ -1,45 +1,60 @@
 'use babel';
 
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Storage from './../../../controllers/storage';
 
-const checkLoginStatus = function checkLoginStatus() {
-  return Storage.user.has('user');
-}
+export default class EmptyState extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loginStatus: Storage.user.get('user')
+    };
 
-const EmptyState = ({ dirname }) => {
+    // TODO: This chunk of codes are not working
+    Storage.user.watch('/user', () => {
+      this.setState({ loginStatus: true });
+    });
+    this.displayContent = this.displayContent.bind(this);
+  }
 
-  const splitted = dirname.split('\\');
-  const componentName = splitted[splitted.length - 1];
-
-  return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <div style={{textAlign:'center', marginBottom: '200px'}}>
+  displayContent() {
+    if (this.state.loginStatus) {
+      return (
         <div>
-          <strong>{componentName}</strong>
+          <div>Fetching data...</div>
+          <div style={{marginTop: 5, opacity: '0.3'}}>Try refreshing the app ({(process.platform === 'win32') ? 'CTRL' : 'CMD'}+R)</div>
         </div>
-        <div style={{margin: "15px"}}>
-          {(checkLoginStatus()) ?
-            <div>
-              <div>Nothing here yet..</div>
-              <div style={{marginTop: 5, opacity: '0.3'}}>Try refreshing the app ({(process.platform === 'win32') ? 'CTRL' : 'CMD'}+R)</div>
-            </div> :
-            <div>
-              <div>Login first to see your data</div>
-            </div>
-          }
+      )
+    } else {
+      return (
+        <div>Login first to see your data</div>
+      )
+    }
+  }
+
+  render() {
+    const splitted = this.props.dirname.split('\\');
+    const componentName = splitted[splitted.length - 1];
+
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <div style={{textAlign:'center', marginBottom: '200px'}}>
+          <div>
+            <strong>{componentName}</strong>
+          </div>
+          <div style={{margin: "15px"}}>
+            {this.displayContent()}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default EmptyState;
+    );
+  }
+}
 
 EmptyState.propTypes = {
   dirname: PropTypes.string
