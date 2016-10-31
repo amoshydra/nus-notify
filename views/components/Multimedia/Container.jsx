@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import CourseWrapper from './CourseWrapper';
+import EmptyState from '../Shared/EmptyState';
 import Storage from './../../../controllers/storage';
 import styles from '../Shared/styles/container.css';
 
@@ -39,7 +40,7 @@ export default class Container extends Component {
     // TODO perhaps shouldn't use get module next time
     if (!dataList || dataList.length <= 0 || !Storage.user.has('modules')) {
       return (
-        <p>Loading data...</p>
+        <EmptyState dirname={__dirname}/>
       );
     }
 
