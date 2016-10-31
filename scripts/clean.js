@@ -12,7 +12,7 @@ const removeFile = function removeFile(filepath) {
 }
 const removeDirectory = function removeDirectory(filepath) {
   console.log(`Removing: ${filepath}`);
-  fs.rmdirSync(path);
+  fs.rmdirSync(filepath);
 }
 const removeDirectoryRecurse = function removeDirectoryRecurse(path) {
   if(fs.existsSync(path)) {
@@ -24,7 +24,7 @@ const removeDirectoryRecurse = function removeDirectoryRecurse(path) {
         removeFile(curPath);
       }
     });
-    removeDirectory(filePath);
+    removeDirectory(path);
   }
 };
 
