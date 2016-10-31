@@ -1,5 +1,6 @@
 .container {
   padding: 16px 10px;
+  padding-right: 1px;
 }
 
 .container > ul {
