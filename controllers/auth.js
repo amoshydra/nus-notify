@@ -1,4 +1,5 @@
 const electron = require('electron');
+const localShortcut = require('electron-localshortcut');
 const EventEmitter = require('events').EventEmitter;
 
 const { BrowserWindow } = electron;
@@ -41,11 +42,23 @@ const AuthWindows = {
     this.authWindow = new BrowserWindow(this.windowProps);
     if (this.authWindow) {
       this.loadAuthPage();
+      this.configureLocalShortcut();
       this.bindEventListener();
     } else {
       console.error('Problem creating auth window');
     }
   },
+
+  configureLocalShortcut: function configureLocalShortcut() {
+      const windowToRegister = this.authWindow;
+
+      // Development only shortcut
+      if (process.env.NODE_ENV === 'development') {
+        localShortcut.register(windowToRegister, 'CommandOrControl+Shift+I', () => {
+          this.authWindow.toggleDevTools();
+        });
+      }
+    },
 
   bindEventListener: function bindEventListener() {
     const self = this;
